@@ -6,6 +6,13 @@ import '../style.less';
 const pages = {
     'mainPage': [Pages.MainPage],
     'loginPage': [Pages.LoginForm],
+    'registrationPage': [Pages.RegistrationForm],
+    'chatPage': [Pages.ChatPage],
+    'profilePage': [Pages.ProfilePage],
+    'profileEditPage': [Pages.ProfileEditPage],
+    'profileEditPasswordPage': [Pages.ProfileEditPasswordPage],
+    'error404': [Pages.Error404Page],
+    'error500': [Pages.Error500Page]
 }
 
 Object.entries(Components).forEach(([ name, component ]) => {
@@ -29,6 +36,41 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         case '/login': {
             navigator('loginPage');
+            break;
+        }
+
+        case '/registration': {
+            navigator('registrationPage');
+            break;
+        }
+
+        case '/chat': {
+            navigator('chatPage');
+            break;
+        }
+
+        case '/profile': {
+            navigator('profilePage');
+            break;
+        }
+
+        case '/profile-edit': {
+            navigator('profileEditPage');
+            break;
+        }
+
+        case '/profile-edit-password': {
+            navigator('profileEditPasswordPage');
+            break;
+        }
+
+        case '/error404': {
+            navigator('error404');
+            break;
+        }
+
+        case '/error500': {
+            navigator('error500');
             break;
         }
 

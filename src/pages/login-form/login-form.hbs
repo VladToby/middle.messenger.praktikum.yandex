@@ -1,9 +1,13 @@
 <div class="login">
-    <form class="form_login">
+    <h1 class="login__title">Sign In</h1>
+    <form class="login__form">
         {{> Input type='text' name='login' class="login" id="login" label='Login' }}
         {{> Input type='password' name='password' class="password" id="password" label='Password' }}
-        <div  class="button_submit">
-            {{> Button class="button_login" type="submit" page="registrationPage" label='Sign In'}}
+        <div class="login__confirm">
+            {{> Button class="login__button-login" type="submit" label='Sign In' page="chatPage"}}
         </div>
     </form>
+    <div class="login__create-account">
+        {{> Button class="login__button-create-account" type="button" label='Create Account' page="registrationPage"}}
+    </div>
 </div>

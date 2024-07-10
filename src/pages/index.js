@@ -1,2 +1,9 @@
 export { MainPage } from './main-page';
 export { LoginForm } from './login-form';
+export { RegistrationForm } from './registration-form';
+export { ChatPage } from './chat';
+export { ProfilePage } from './profile';
+export { ProfileEditPage } from './profile-edit';
+export { ProfileEditPasswordPage } from './profile-edit-password';
+export { Error404Page } from './error404';
+export { Error500Page } from './error500';
