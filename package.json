@@ -7,7 +7,7 @@
     "dev": "vite --port 3000",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "npm run build"
+    "start": "vite build && vite preview --port 3000"
   },
   "devDependencies": {
     "vite": "^5.3.1",
@@ -16,5 +16,8 @@
   "dependencies": {
     "handlebars": "^4.7.8",
     "vite-plugin-handlebars": "^2.0.0"
+  },
+  "engines": {
+    "node": "^17.4.0"
   }
 }

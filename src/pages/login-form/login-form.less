@@ -1,0 +1,62 @@
+@import '../../utils.less';
+
+.login {
+  &.title {
+    margin: 1.5rem 0;
+  }
+
+  &.container {
+    .container-styles();
+  }
+
+  &.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .field-login, .field-password {
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      width: 80%;
+
+      label {
+        margin-bottom: 0.25rem;
+      }
+
+      .input {
+        &.login, &.password {
+          .input(
+            @margin: 0 0 2rem 0;
+            @width: auto;
+          );
+        }
+      }
+    }
+
+    .confirm {
+      margin: 7rem auto 1rem;
+      width: 80%;
+
+      .button {
+        &.button-login {
+          .button(@margin: 0, @padding: 1rem, @width: 100%);
+        }
+      }
+    }
+  }
+
+  .create-account {
+    .button {
+      &.button-create-account {
+        background: none;
+        color: @main__button-background-color;
+
+        &:hover {
+          text-decoration: underline;
+          background: none !important;
+        }
+      }
+    }
+  }
+}

@@ -1,27 +1,52 @@
 <div class="chat">
-    <div class="chat__sidebar">
-        <ul class="chat__list">
-            <a href="" class="chat__item">
+    <div class="chat sidebar">
+        <div class="chat list">
+            <div class="list-header">
+                <div class="profile">
+                    {{> Button class="profile-button" type="button" label='Profile' page="profilePage"}}
+                </div>
+                <div class="search">
+                    {{> Input type='search' name='search' class="chat-search" placeholder="Search" }}
+                </div>
+            </div>
+            <a href="" class="chat item">
                 <div class="avatar"></div>
-                <div class="chat__item-content">
-                    <div class="dialog__title">
-                        <div class="dialog__title-user-title">Andrew</div>
-                        <div class="dialog__title-details">17:25</div>
-                    </div>
-                    <div class="dialog__subtitle">
-                        <div class="dialog__subtitle-message">Agag agas a gagsaga ags</div>
-                        <div class="dialog__subtitle-unread">1</div>
-                    </div>
+                <div class="dialog title">
+                    <div class="dialog title-user-title">Andrew</div>
+                    <div class="dialog title-details">17:25</div>
+                </div>
+                <div class="dialog subtitle">
+                    <div class="dialog subtitle-message">Agag agas a gagsaga ags</div>
+                    <div class="dialog subtitle unread">3</div>
                 </div>
             </a>
-        </ul>
+            <a href="" class="chat item">
+                <div class="avatar"></div>
+                <div class="dialog title">
+                    <div class="dialog title-user-title">Andrew</div>
+                    <div class="dialog title-details">17:25</div>
+                </div>
+                <div class="dialog subtitle">
+                    <div class="dialog subtitle-message">Agag agas a gagsaga ags</div>
+                    <div class="dialog subtitle"></div>
+                </div>
+            </a>
+            <a href="" class="chat item">
+                <div class="avatar"></div>
+                <div class="dialog title">
+                    <div class="dialog title-user-title">Andrew</div>
+                    <div class="dialog title-details">17:25</div>
+                </div>
+                <div class="dialog subtitle">
+                    <div class="dialog subtitle-message">Agag agas a gagsaga ags</div>
+                    <div class="dialog subtitle unread">1</div>
+                </div>
+            </a>
+        </div>
     </div>
-    <div class="chat__messenger">
-        <span class="chat__welcome-message">Select a chat to send a message</span>
-        <div class="chat__footer">
-            <label>
-                <input class="chat__message" name="message" readonly/>
-            </label>
+    <div class="chat messenger">
+        <div class="messenger-body">
+            <span class="chat welcome-message">Select a chat to send a message</span>
         </div>
     </div>
 </div>

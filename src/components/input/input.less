@@ -1,0 +1,32 @@
+@import '../../utils.less';
+
+.input(
+  @width: 100%;
+  @height: 2rem;
+  @margin: 0 0 0 0;
+  @background: @main__input-background-color;
+  @color: @main__font-color;
+  @padding: 5px;
+  @border: 1px solid transparent;
+  @border-radius: 5px;
+  @font-size: 18px;
+){
+  width: @width;
+  margin: @margin;
+  height: @height;
+  background: @background;
+  color: @color;
+  padding: @padding;
+  border: @border;
+  border-radius: @border-radius;
+  font-size: @font-size;
+}
+
+.input {
+  .input();
+
+  &:hover, &:active, &:focus-visible {
+    border: 1px solid @main__button-background-color !important;
+    outline: none;
+  }
+}
