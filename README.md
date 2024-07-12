@@ -26,3 +26,5 @@
 - **npm run start** запуск проекта в режиме сборки
 
 ---
+
+### [Ссылка на Netlify](https://legendary-cat-a62c0e.netlify.app/main-page)
