@@ -1,0 +1,25 @@
+@import '../../utils.less';
+
+.error {
+  &.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem 0;
+
+    .title {
+
+    }
+
+    .text {
+      .back-button {
+        .button(@background: none, @margin: 0, @padding: 0, @width: auto, @color: @main__button-background-color);
+
+        &:hover {
+          .custom-button-hover(@color: @main__button-background-hover);
+        }
+      }
+    }
+  }
+}

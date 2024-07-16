@@ -1,0 +1,107 @@
+@import '../../utils.less';
+
+.profile {
+  display: flex;
+
+  .sidebar {
+    width: 5%;
+
+    .back-button {
+      .button(@background: none, @margin: 0, @padding: 0);
+
+      &:after {
+        content: '<';
+        border: 1px solid white;
+        border-radius: 100%;
+        color: @main__font-color;
+      }
+
+      &:hover {
+        .custom-button-hover();
+      }
+    }
+  }
+
+  .main-content {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: @secondary__background-color;
+    padding: 3rem;
+
+    .avatar {
+      margin: 5rem 0;
+
+      &:after {
+        content: '';
+        border: 70px solid @main__background-color;
+        border-radius: 100%;
+      }
+    }
+
+    .info {
+      flex-direction: column;
+      width: 60%;
+      margin-bottom: 2rem;
+
+      .item {
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid @profile__info-underline-color;
+
+        .label, label {
+          color: @secondary__font-color;
+        }
+
+        &.editable {
+          .input {
+            .input(@border: none, @background: none, @width: 60%);
+
+            text-align: right;
+
+            &:hover, &:active, &:focus-visible {
+              border: none !important;
+            }
+          }
+
+          &:hover {
+            border-bottom: 2px solid @profile__info-underline-hover-color;
+          }
+        }
+      }
+
+      .edit-password {
+        width: 100%;
+      }
+
+      .save-profile {
+        margin: 2rem auto 0 auto;
+
+        .button-save {
+          display: block;
+        }
+      }
+    }
+
+    .edit-buttons {
+      flex-direction: column;
+      width: 60%;
+
+      .edit-profile, .edit-password {
+        .button-edit-profile, .button-edit-password {
+          .button(@margin: 0.5rem 0, @background: none, @padding: 0, @color: @main__button-background-color);
+
+          &:hover {
+            .custom-button-hover();
+          }
+        }
+
+        padding: 0;
+        margin: 0;
+        border-bottom: 2px solid @profile__info-underline-color;
+      }
+    }
+  }
+}

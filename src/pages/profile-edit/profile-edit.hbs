@@ -1,0 +1,28 @@
+<div class="profile">
+    <div class="profile sidebar">
+        {{> Button class="back-button" type="button" id="button" page="profilePage" }}
+    </div>
+    <div class="main-content">
+        <div class="profile avatar"></div>
+        <form class="profile info">
+            <div class="profile item editable">
+                {{> Input type='email' name='email' class="email" id="email" label='Email' value="ivan@gmail.com" }}
+            </div>
+            <div class="profile item editable">
+                {{> Input type='input' name='login' class="login" id="login" label='Login' value="ivanivanov" }}
+            </div>
+            <div class="profile item editable">
+                {{> Input type='input' name='first_name' class="first_name" id="first_name" label='First Name' value="Ivan" }}
+            </div>
+            <div class="profile item editable">
+                {{> Input type='input' name='second_name' class="second_name" id="second_name" label='Second Name' value="Ivanov" }}
+            </div>
+            <div class="profile item editable">
+                {{> Input type='tel' name='phone' class="phone" id="phone" label='Phone Number' value="+78005553535" }}
+            </div>
+            <div class="profile save-profile">
+                {{> Button class="profile button-save" type="submit" label="Save" page="profilePage" }}
+            </div>
+        </form>
+    </div>
+</div>

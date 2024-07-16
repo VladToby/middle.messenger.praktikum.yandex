@@ -1,0 +1,33 @@
+<div class="profile">
+    <div class="profile sidebar">
+        {{> Button class="back-button" type="button" id="button" page="chatPage" }}
+    </div>
+    <div class="main-content">
+        <div class="profile avatar"></div>
+        <div class="profile info">
+            <div class="profile item">
+                <span class="label">Email</span><span class="email">ivan@gmail.com</span>
+            </div>
+            <div class="profile item">
+                <span class="label">Login</span><span class="login">ivanivanov</span>
+            </div>
+            <div class="profile item">
+                <span class="label">First Name</span><span class="fist-name">Ivan</span>
+            </div>
+            <div class="profile item">
+                <span class="label">Second Name</span><span class="second-name">Ivanov</span>
+            </div>
+            <div class="profile item">
+                <span class="label">Phone</span><span class="email">+78005553535</span>
+            </div>
+        </div>
+        <div class="profile edit-buttons">
+            <div class="profile edit-profile">
+                {{> Button class="profile button-edit-profile" label="Change Profile" page="profileEditPage"}}
+            </div>
+            <div class="profile edit-password">
+                {{> Button class="profile button-edit-password" label="Change Password" page="profileEditPasswordPage"}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+@import '../../utils.less';
+
+.button (
+  @border-radius: 8px;
+  @border: 1px solid transparent;
+  @font-size: 1em;
+  @padding: 0.5rem;
+  @margin: 0 0 1.5rem 0;
+  @width: 15rem;
+  @font-weight: 500;
+  @font-family: inherit;
+  @background: @main__button-background-color;
+  @cursor: pointer;
+  @transition: border-color 0.25s;
+  @color: @main__font-color;
+){
+  border-radius: @border-radius;
+  border: @border;
+  font-size: @font-size;
+  padding: @padding;
+  margin: @margin;
+  width: @width;
+  font-weight: @font-weight;
+  font-family: @font-family;
+  background: @background;
+  cursor: @cursor;
+  transition: @transition;
+  color: @color;
+}
+
+.custom-button-hover(
+  @background: none;
+  @color: @main__button-background-hover;
+){
+  background: @background !important;
+  color: @color;
+}
+
+.button {
+  .button();
+
+  &:hover {
+    background-color: @main__button-background-hover !important;
+  }
+}

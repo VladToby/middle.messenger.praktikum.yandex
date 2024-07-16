@@ -1,0 +1,23 @@
+{
+  "name": "practikum_project",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite build && vite preview --port 3000"
+  },
+  "devDependencies": {
+    "vite": "^5.3.1",
+    "less": "^4.2.0"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "vite-plugin-handlebars": "^2.0.0"
+  },
+  "engines": {
+    "node": "^17.4.0"
+  }
+}

@@ -1,0 +1,17 @@
+<div class="login container">
+    <h1 class="login title">Sign In</h1>
+    <form class="login form">
+        <div class="login field-login">
+            {{> Input type='text' name='login' class="login" id="login" label='Login' }}
+        </div>
+        <div class="login field-password">
+            {{> Input type='password' name='password' class="password" id="password" label='Password' }}
+        </div>
+        <div class="login confirm">
+            {{> Button class="login button-login" type="submit" label='Sign In' page="chatPage"}}
+        </div>
+    </form>
+    <div class="login create-account">
+        {{> Button class="login button-create-account" type="button" label='Create Account' page="registrationPage"}}
+    </div>
+</div>
