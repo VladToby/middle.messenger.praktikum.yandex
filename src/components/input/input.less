@@ -41,13 +41,13 @@
   .error-message {
     position: absolute;
     font-size: 0.75rem;
-    color: #ff0000; // Цвет текста ошибки
-    margin-top: 0.25rem; // Небольшой отступ от инпута
+    color: @main__error-color;
+    margin-top: 0.25rem;
   }
 
   &.has-error {
     .input {
-      .input(@border: 1px solid #ff0000) !important;
+      .input(@border: 1px solid @main__error-color) !important;
     }
   }
 }

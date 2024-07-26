@@ -79,7 +79,7 @@
             }
 
             &.has-error {
-              border-bottom: 2px solid red;
+              border-bottom: 2px solid @main__error-color;
 
               .input {
                 .input(@border: none, @background: none) !important;
@@ -89,7 +89,7 @@
             .error-message {
               position: absolute;
               font-size: 0.75rem;
-              color: #ff0000;
+              color: @main__error-color;
               left: 47%;
               margin-top: 2.75rem;
             }
