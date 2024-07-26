@@ -20,7 +20,7 @@ class Block {
     children: Children;
     eventBus: () => EventBus;
 
-    protected constructor(propsAndChildren: Props | Children) {
+    constructor(propsAndChildren: Props | Children) {
         const eventBus = new EventBus();
         const { props, children} = this._getChildrenAndProps(propsAndChildren);
 
@@ -39,7 +39,7 @@ class Block {
         const children: Children = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
-            if (value instanceof Block) {
+            if (value instanceof Block || value instanceof Element) {
                 children[key] = value;
             } else {
                 props[key] = value;
@@ -141,8 +141,8 @@ class Block {
     }
 
     private _compile(): DocumentFragment {
-        const template: string = this.render();
-        const fragment: HTMLElement = this._createDocumentElement('template');
+        const template = this.render();
+        const fragment = document.createElement('template');
 
         const context = {
             ...this.props,
@@ -151,15 +151,19 @@ class Block {
 
         fragment.innerHTML = Handlebars.compile(template)(context);
 
-        Object.entries(this.children).forEach(([id, component]) => {
+        Object.entries(this.children).forEach(([id, child]) => {
             const stub = fragment.content.querySelector(`[data-id="${id}"]`);
             if (!stub) {
                 return;
             }
 
-            const content = component.getContent();
-            if (content) {
-                stub.replaceWith(content);
+            if (child instanceof Block) {
+                const content = child.getContent();
+                if (content) {
+                    stub.replaceWith(content);
+                }
+            } else if (child instanceof Element) {
+                stub.replaceWith(child);
             }
         });
 

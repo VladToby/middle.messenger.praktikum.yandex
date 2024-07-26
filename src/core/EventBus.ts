@@ -1,3 +1,5 @@
+import {Props} from "./Block";
+
 export class EventBus {
     listeners: Record<string, Function[]>;
 
@@ -5,7 +7,7 @@ export class EventBus {
         this.listeners = {};
     }
 
-    on(event: string, callback: () => void): void {
+    on(event: string, callback: OmitThisParameter<(oldProps: Props, newProps: Props) => void>): void {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }

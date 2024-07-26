@@ -15,13 +15,13 @@ export class BaseForm extends Block {
     }
 
     protected onSubmit() {
-        const formData: Record<string, string> = {};
+        const _formData: Record<string, string> = {};
         let isValid: boolean = true;
 
         Object.values(this.children).forEach((child: Block | Element) => {
             if (child instanceof Input) {
-                const { name } = child.props;
-                formData[name] = child.getValue();
+                const name = child.props.name as string;
+                _formData[name] = <string>child.getValue();
                 if (!child.validate()) {
                     isValid = false;
                 }
@@ -29,13 +29,13 @@ export class BaseForm extends Block {
         });
 
         if (isValid) {
-            this.onValid(formData);
+            this.onValid(_formData);
         } else {
             this.onInvalid();
         }
     }
 
-    protected onValid(formData: Record<string, string>) {
+    protected onValid(_formData: Record<string, string>) {
         // This method should be overridden in child classes
     }
 

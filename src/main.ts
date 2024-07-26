@@ -36,7 +36,7 @@ registerImports(components);
 registerImports(pages);
 
 const navigator = (pageName: string) => {
-    const Page = pages[pageName];
+    const Page: any = pages[pageName];
     if (Page) {
         const app = document.getElementById('app');
         if (app) {

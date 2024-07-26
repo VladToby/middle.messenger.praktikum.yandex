@@ -4,7 +4,7 @@ import Block from "./Block";
 export function registerComponent(name: string, Component: typeof Block) {
     Handlebars.registerHelper(name, function(this: any, { hash, data }) {
         const component: Block = new Component(hash);
-        const id = `${name}-${component.id}`;
+        const id: string = `${name}-${component.id}`;
 
         if (hash.ref) {
             (data.root.__refs = data.root.__refs || {})[hash.ref] = component;
