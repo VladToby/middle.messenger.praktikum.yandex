@@ -1,6 +1,6 @@
 {
   "plugins": ["stylelint-less"],
-  "customSyntax": "less",
+  "customSyntax": "postcss-less",
   "rules": {
     "at-rule-no-unknown": null,
     "color-no-invalid-hex": true,
