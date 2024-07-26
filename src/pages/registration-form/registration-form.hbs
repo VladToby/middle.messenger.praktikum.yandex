@@ -2,25 +2,25 @@
     <h1 class="registration title">Create Account</h1>
     <form class="registration form">
         <div class="registration item">
-            {{> Input type='text' name='first_name' class="first_name" id="first_name" label='First Name' }}
+            {{{ Input type='text' name='first_name' class="first_name" id="first_name" label='First Name' }}}
         </div>
         <div class="registration item">
-            {{> Input type='text' name='second_name' class="second_name" id="second_name" label='Second Name' }}
+            {{{ Input type='text' name='second_name' class="second_name" id="second_name" label='Second Name' }}}
         </div>
         <div class="registration item">
-            {{> Input type='text' name='login' class="login" id="login" label='Login' }}
+            {{{ Input type='text' name='login' class="login" id="login" label='Login' }}}
         </div>
         <div class="registration item">
-            {{> Input type='email' name='email' class="email" id="email" label='Email' }}
+            {{{ Input type='email' name='email' class="email" id="email" label='Email' }}}
         </div>
         <div class="registration item">
-            {{> Input type='password' name='password' class="password" id="password" label='Password' }}
+            {{{ Input type='password' name='password' class="password" id="password" label='Password' }}}
         </div>
         <div class="registration item">
-            {{> Input type='tel' name='phone' class="phone" id="phone" label='Phone Number' }}
+            {{{ Input type='tel' name='phone' class="phone" id="phone" label='Phone Number' }}}
         </div>
         <div class="registration submit">
-            {{> Button class="registration__button-registration" type="submit" label='Create account' page="chatPage"}}
+            {{{ Button class="registration__button-registration" type="submit" label='Create account' onClick=onValid }}}
         </div>
     </form>
 </div>

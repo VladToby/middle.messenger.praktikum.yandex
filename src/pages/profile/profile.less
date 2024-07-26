@@ -49,20 +49,49 @@
       .item {
         justify-content: space-between;
         margin-bottom: 1rem;
-        border-bottom: 2px solid @profile__info-underline-color;
 
         .label, label {
           color: @secondary__font-color;
         }
 
         &.editable {
-          .input {
-            .input(@border: none, @background: none, @width: 60%);
+          label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px;
+          }
 
-            text-align: right;
+          .input-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 0;
+            border-bottom: 2px solid @profile__info-underline-color;
 
-            &:hover, &:active, &:focus-visible {
-              border: none !important;
+            .input {
+              .input(@border: none, @background: none, @width: 60%, @padding: 0);
+              text-align: right;
+
+              &:hover, &:active, &:focus-visible {
+                border: none !important;
+              }
+            }
+
+            &.has-error {
+              border-bottom: 2px solid red;
+
+              .input {
+                .input(@border: none, @background: none) !important;
+              }
+            }
+
+            .error-message {
+              position: absolute;
+              font-size: 0.75rem;
+              color: #ff0000;
+              left: 47%;
+              margin-top: 2.75rem;
             }
           }
 
