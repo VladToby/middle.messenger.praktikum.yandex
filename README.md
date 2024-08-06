@@ -7,6 +7,9 @@
 - Vite
 - Шаблонизатор Handlebars
 - Препроцессор Less
+- Typescript 5.5.3
+- Реализован компонентный подход
+- Eslint & Stylelint
 
 ---
 

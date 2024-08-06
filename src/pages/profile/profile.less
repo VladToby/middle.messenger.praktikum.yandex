@@ -5,15 +5,21 @@
 
   .sidebar {
     width: 5%;
+    align-items: center;
 
     .back-button {
-      .button(@background: none, @margin: 0, @padding: 0);
+      .button(@background: none, @margin: 0 auto, @padding: 0, @width: 0);
 
-      &:after {
-        content: '<';
-        border: 1px solid white;
-        border-radius: 100%;
-        color: @main__font-color;
+      border: 20px solid @main__button-background-color;
+      border-radius: 100%;
+
+      &:before {
+        font-family: @icon-font;
+        content: '\e900';
+        color: @main__icon-color;
+        font-size: 20px;
+        position: absolute;
+        transform: translate(-50%, -50%);
       }
 
       &:hover {
@@ -33,11 +39,16 @@
 
     .avatar {
       margin: 5rem 0;
+      border: 70px solid @main__background-color;
+      border-radius: 100%;
 
-      &:after {
-        content: '';
-        border: 70px solid @main__background-color;
-        border-radius: 100%;
+      &:before {
+        font-family: @icon-font;
+        content: @icon__image;
+        color: @main__font-color;
+        font-size: 40px;
+        position: absolute;
+        transform: translate(-50%, -50%);
       }
     }
 
@@ -49,20 +60,49 @@
       .item {
         justify-content: space-between;
         margin-bottom: 1rem;
-        border-bottom: 2px solid @profile__info-underline-color;
 
         .label, label {
           color: @secondary__font-color;
         }
 
         &.editable {
-          .input {
-            .input(@border: none, @background: none, @width: 60%);
+          label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px;
+          }
 
-            text-align: right;
+          .input-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 0;
+            border-bottom: 2px solid @profile__info-underline-color;
 
-            &:hover, &:active, &:focus-visible {
-              border: none !important;
+            .input {
+              .input(@border: none, @background: none, @width: 60%, @padding: 0);
+              text-align: right;
+
+              &:hover, &:active, &:focus-visible {
+                border: none !important;
+              }
+            }
+
+            &.has-error {
+              border-bottom: 2px solid @main__error-color;
+
+              .input {
+                .input(@border: none, @background: none) !important;
+              }
+            }
+
+            .error-message {
+              position: absolute;
+              font-size: 0.75rem;
+              color: @main__error-color;
+              left: 47%;
+              margin-top: 2.75rem;
             }
           }
 

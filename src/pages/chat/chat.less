@@ -28,7 +28,25 @@
             &:hover {
               background: none !important;
               color: @main__button-background-hover;
+
+              &:after {
+                color: @main__button-background-hover;
+              }
             }
+
+            &:after {
+              font-family: @icon-font;
+              content: @icon__angle-right;
+              color: @main__font-color;
+              vertical-align: middle;
+              font-size: 12px;
+              margin-left: 0.25rem;
+            }
+          }
+
+          &:hover, &:active, &:focus-visible {
+            background: none !important;
+            color: @main__button-background-hover !important;
           }
         }
 
@@ -65,9 +83,17 @@
           width: 3.375rem !important;
           height: 3.375rem !important;
 
+          &:before {
+            font-family: @icon-font;
+            content: @icon__image;
+            color: @main__font-color;
+            position: absolute;
+            font-size: 24px;
+          }
+
           &:after {
             content: '';
-            border: 25px solid @secondary__background-color;
+            border: 35px solid @secondary__background-color;
             border-radius: 100%;
           }
         }
@@ -79,6 +105,7 @@
 
           &.title {
             height: 1.375rem;
+            font-weight: bold;
           }
 
           &.subtitle {

@@ -22,11 +22,32 @@
   font-size: @font-size;
 }
 
-.input {
-  .input();
+.input-wrapper {
+  margin-bottom: 3rem;
 
-  &:hover, &:active, &:focus-visible {
-    border: 1px solid @main__button-background-color !important;
-    outline: none;
+  label {
+    margin-bottom: 0.25rem;
+  }
+
+  .input {
+    .input();
+
+    &:hover, &:active, &:focus-visible {
+      border: 1px solid @main__button-background-color !important;
+      outline: none;
+    }
+  }
+
+  .error-message {
+    position: absolute;
+    font-size: 0.75rem;
+    color: @main__error-color;
+    margin-top: 0.25rem;
+  }
+
+  &.has-error {
+    .input {
+      .input(@color: @main__error-color) !important;
+    }
   }
 }

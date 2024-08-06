@@ -26,10 +26,7 @@
 
       .input {
         &.login, &.password {
-          .input(
-            @margin: 0 0 2rem 0;
-            @width: auto;
-          );
+          .input();
         }
       }
     }
@@ -55,6 +52,7 @@
         &:hover {
           text-decoration: underline;
           background: none !important;
+          color: @main__button-background-hover;
         }
       }
     }
