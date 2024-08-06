@@ -5,15 +5,21 @@
 
   .sidebar {
     width: 5%;
+    align-items: center;
 
     .back-button {
-      .button(@background: none, @margin: 0, @padding: 0);
+      .button(@background: none, @margin: 0 auto, @padding: 0, @width: 0);
 
-      &:after {
-        content: '<';
-        border: 1px solid white;
-        border-radius: 100%;
-        color: @main__font-color;
+      border: 20px solid @main__button-background-color;
+      border-radius: 100%;
+
+      &:before {
+        font-family: @icon-font;
+        content: '\e900';
+        color: @main__icon-color;
+        font-size: 20px;
+        position: absolute;
+        transform: translate(-50%, -50%);
       }
 
       &:hover {
@@ -33,11 +39,16 @@
 
     .avatar {
       margin: 5rem 0;
+      border: 70px solid @main__background-color;
+      border-radius: 100%;
 
-      &:after {
-        content: '';
-        border: 70px solid @main__background-color;
-        border-radius: 100%;
+      &:before {
+        font-family: @icon-font;
+        content: @icon__image;
+        color: @main__font-color;
+        font-size: 40px;
+        position: absolute;
+        transform: translate(-50%, -50%);
       }
     }
 

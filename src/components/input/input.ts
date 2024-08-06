@@ -39,7 +39,6 @@ export class Input extends Block {
             error: errorMessage,
             hasError: hasError
         });
-        console.log(!!errorMessage);
         return !errorMessage;
     }
 
