@@ -5,6 +5,9 @@ import { v4 as makeUUID } from 'uuid';
 export type Events = Record<string, () => void>;
 export type Props = Record<string, unknown>;
 export type Children = Record<string, Element | Block>;
+export type BlockType = {
+    new(propsAndParent: Props): Block
+};
 
 class Block {
     static EVENTS: Record<string, string> = {
@@ -204,6 +207,20 @@ class Block {
 
     private _createDocumentElement(tagName: string): HTMLElement {
         return document.createElement(tagName);
+    }
+
+    show() {
+        const content = this.getContent();
+        if (content) {
+            content.style.display = '';
+        }
+    }
+
+    hide() {
+        const content = this.getContent();
+        if (content) {
+            content.style.display = 'none';
+        }
     }
 }
 

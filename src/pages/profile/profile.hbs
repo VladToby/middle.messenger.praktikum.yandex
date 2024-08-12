@@ -1,6 +1,6 @@
 <div class="profile">
     <div class="profile sidebar">
-        {{{ Button class="back-button" type="button" id="button" page="ChatPage" }}}
+        {{{ Button class="back-button" type="button" id="button" onClick=goBack }}}
     </div>
     <div class="main-content">
         <div class="profile avatar"></div>
@@ -23,10 +23,10 @@
         </div>
         <div class="profile edit-buttons">
             <div class="profile edit-profile">
-                {{{ Button class="profile button-edit-profile" label="Change Profile" page="ProfileEditPage" }}}
+                {{{ Button class="profile button-edit-profile" label="Change Profile" onClick=goToSettingsEdit }}}
             </div>
             <div class="profile edit-password">
-                {{{ Button class="profile button-edit-password" label="Change Password" page="ProfileEditPasswordPage" }}}
+                {{{ Button class="profile button-edit-password" label="Change Password" onClick=goToPasswordEdit }}}
             </div>
         </div>
     </div>

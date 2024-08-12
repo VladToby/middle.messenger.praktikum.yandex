@@ -1,6 +1,7 @@
 import './registration-form.less';
 import RegistrationFormTmpl from './registration-form.hbs?raw';
 import { BaseForm } from '../../core/BaseForm';
+import { goToMessenger } from '../../utils/router';
 
 export class RegistrationPage extends BaseForm {
     render(): string {
@@ -10,6 +11,6 @@ export class RegistrationPage extends BaseForm {
     protected onValid(formData: Record<string, string>) {
         console.log('Account registration successful', formData);
 
-        this.navigate('ChatPage');
+        goToMessenger();
     }
 }

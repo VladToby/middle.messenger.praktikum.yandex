@@ -1,5 +1,7 @@
 import Handlebars from 'handlebars';
 import { registerComponent } from './core/RegistrationComponent';
+import { router, start } from "./utils/router";
+import { BlockType } from "./core/Block";
 import './style.less';
 
 type ImportValue = Record<string, string>;
@@ -35,42 +37,15 @@ const registerImports = (imports: ImportValue) => {
 registerImports(components);
 registerImports(pages);
 
-const navigator = (pageName: string) => {
-    const Page: any = pages[pageName];
-    if (Page) {
-        const app = document.getElementById('app');
-        if (app) {
-            if (typeof Page === 'function') {
-                const page = new Page({});
-                const content = page.getContent();
-                if (content) {
-                    app.innerHTML = '';
-                    app.appendChild(content);
-                }
-            }
-        }
-    }
-};
+router
+    .use('/', pages.LoginPage as unknown as BlockType)
+    .use('/login', pages.LoginPage as unknown as BlockType)
+    .use('/signup', pages.RegistrationPage as unknown as BlockType)
+    .use('/messenger', pages.ChatPage as unknown as BlockType)
+    .use('/settings', pages.ProfilePage as unknown as BlockType)
+    .use('/settings/edit', pages.ProfileEditPage as unknown as BlockType)
+    .use('/settings/edit-password', pages.ProfileEditPasswordPage as unknown as BlockType)
+    .use('/404', pages.Error404Page as unknown as BlockType)
+    .use('/500', pages.Error500Page as unknown as BlockType);
 
-document.addEventListener('DOMContentLoaded', () => {
-    navigator('MainPage');
-});
-
-document.addEventListener('click', (event) => {
-    const target: HTMLElement = event.target as HTMLElement;
-    const page = target.getAttribute('page');
-    if (page) {
-        navigator(page);
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-    }
-});
-
-document.addEventListener('navigate', (event: Event) => {
-    const customEvent = event as CustomEvent;
-    const page = customEvent.detail.page;
-    if (page) {
-        navigator(page);
-    }
-});
+start();
