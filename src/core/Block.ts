@@ -1,6 +1,8 @@
 import { EventBus } from './EventBus';
 import Handlebars from 'handlebars';
 import { v4 as makeUUID } from 'uuid';
+import { Indexed } from "../utils/utils";
+import isEqual from "../utils/isEqual";
 
 export type Events = Record<string, () => void>;
 export type Props = Record<string, unknown>;
@@ -14,6 +16,7 @@ class Block {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
+        FLOW_CWU: 'flow:component-will-unmount',
         FLOW_RENDER: "flow:render"
     } as const;
 
@@ -72,6 +75,7 @@ class Block {
         eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
@@ -82,7 +86,6 @@ class Block {
     }
 
     public init() {
-        return this;
     }
 
     private _componentDidMount(): void {
@@ -115,10 +118,16 @@ class Block {
     }
 
     protected componentDidUpdate(oldProps: Props, newProps: Props) {
-        return oldProps !== newProps;
+        return isEqual(oldProps, newProps);
     }
 
-    public setProps = (nextProps: Props): void => {
+    protected _componentWillUnmount() {
+        this.componentWillUnmount();
+    }
+
+    public componentWillUnmount() {}
+
+    public setProps = (nextProps: Props) => {
         if (!nextProps) {
             return;
         }
@@ -126,7 +135,7 @@ class Block {
         const oldProps = { ...this.props };
         Object.assign(this.props, nextProps);
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
-    };
+    }
 
     private _render() {
         const fragment = this._compile();
@@ -141,6 +150,12 @@ class Block {
         this._element = newElement;
 
         this._addEvents();
+
+        Object.values(this.children).forEach(child => {
+            if (child instanceof Block) {
+                child.forceUpdate();
+            }
+        });
     }
 
     private _compile(): DocumentFragment {
@@ -194,9 +209,10 @@ class Block {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target: Props, prop: string, value: unknown){
+                const oldTarget = { ...target };
                 target[prop] = value;
 
-                self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+                self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
                 return true;
             },
             deleteProperty() {
@@ -221,6 +237,14 @@ class Block {
         if (content) {
             content.style.display = 'none';
         }
+    }
+
+    static getStateToProps(_state: Indexed): Props {
+        return {};
+    }
+
+    public forceUpdate() {
+        this._render();
     }
 }
 

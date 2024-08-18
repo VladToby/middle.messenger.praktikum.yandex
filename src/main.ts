@@ -1,8 +1,11 @@
 import Handlebars from 'handlebars';
 import { registerComponent } from './core/RegistrationComponent';
-import { router, start } from "./utils/router";
+import { router } from "./utils/router";
 import { BlockType } from "./core/Block";
 import './style.less';
+import Store, {StoreEvents} from './core/Store';
+import AuthController from './controllers/AuthController';
+import {goToSettings, goToLogin} from "./utils/router";
 
 type ImportValue = Record<string, string>;
 type ImportGlob = Record<string, ImportValue>;
@@ -37,15 +40,38 @@ const registerImports = (imports: ImportValue) => {
 registerImports(components);
 registerImports(pages);
 
-router
-    .use('/', pages.LoginPage as unknown as BlockType)
-    .use('/login', pages.LoginPage as unknown as BlockType)
-    .use('/signup', pages.RegistrationPage as unknown as BlockType)
-    .use('/messenger', pages.ChatPage as unknown as BlockType)
-    .use('/settings', pages.ProfilePage as unknown as BlockType)
-    .use('/settings/edit', pages.ProfileEditPage as unknown as BlockType)
-    .use('/settings/edit-password', pages.ProfileEditPasswordPage as unknown as BlockType)
-    .use('/404', pages.Error404Page as unknown as BlockType)
-    .use('/500', pages.Error500Page as unknown as BlockType);
+async function initApp() {
+    router
+        .use('/', pages.LoginPage as unknown as BlockType)
+        .use('/login', pages.LoginPage as unknown as BlockType)
+        .use('/signup', pages.RegistrationPage as unknown as BlockType)
+        .use('/messenger', pages.ChatPage as unknown as BlockType)
+        .use('/settings', pages.ProfilePage as unknown as BlockType)
+        .use('/settings/edit-password', pages.ProfileEditPasswordPage as unknown as BlockType)
+        .use('/404', pages.Error404Page as unknown as BlockType)
+        .use('/500', pages.Error500Page as unknown as BlockType)
+        .start();
 
-start();
+    Store.on(StoreEvents.Updated, () => {});
+
+    try {
+        const isLoggedIn = await AuthController.getUser();
+        if (isLoggedIn) {
+            const currentRoute = router.getCurrentRoute();
+            if (currentRoute && (
+                currentRoute.match('/'))
+                || currentRoute?.match('/login')
+                || currentRoute?.match('/signup')
+            ) {
+                goToSettings();
+            }
+        } else {
+            goToLogin();
+        }
+    } catch (e) {
+        console.error('Error during app initialization:', e);
+        goToLogin();
+    }
+}
+
+initApp();

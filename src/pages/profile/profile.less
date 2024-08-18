@@ -38,18 +38,77 @@
     padding: 3rem;
 
     .avatar {
-      margin: 5rem 0;
-      border: 70px solid @main__background-color;
-      border-radius: 100%;
+      .image {
+        margin: 5rem 0;
+        border: 70px solid @main__background-color;
+        border-radius: 100%;
+        overflow: hidden;
 
-      &:before {
-        font-family: @icon-font;
-        content: @icon__image;
-        color: @main__font-color;
-        font-size: 40px;
-        position: absolute;
-        transform: translate(-50%, -50%);
+        &:hover {
+          cursor: pointer;
+          border-color: rgba(0, 0, 0, 0.5);
+
+          &:before {
+            content: 'Change avatar';
+            font-size: 15px;
+          }
+        }
+
+        &:before {
+          font-family: @icon-font;
+          content: @icon__image;
+          color: @main__font-color;
+          font-size: 40px;
+          position: absolute;
+          transform: translate(-50%, -50%);
+          z-index: 1;
+        }
+
+        &.uploaded {
+          border: none;
+          width: 180px;
+          height: 180px;
+          position: relative;
+
+          img {
+            border-radius: 100%;
+            width: 180px;
+            height: 180px;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+
+            &:after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            &:before {
+              content: 'Change avatar' !important;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 15px;
+            }
+          }
+
+          &:before {
+            content: '';
+          }
+        }
       }
+    }
+
+    .avatar-uploader {
+      visibility: hidden;
     }
 
     .info {
@@ -125,6 +184,15 @@
       }
     }
 
+    .success-message {
+      color: green;
+      background-color: #e6ffe6;
+      border: 1px solid #b3ffb3;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
     .edit-buttons {
       flex-direction: column;
       width: 60%;
@@ -141,6 +209,15 @@
         padding: 0;
         margin: 0;
         border-bottom: 2px solid @profile__info-underline-color;
+      }
+
+      .button-logout {
+        .button(@margin: 0.5rem 0, @background: none, @padding: 0, @color: @secondary__button-background-color);
+
+        &:hover {
+          .custom-button-hover(@color: @secondary__button-background-color);
+          opacity: 70%;
+        }
       }
     }
   }

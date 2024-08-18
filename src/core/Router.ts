@@ -1,5 +1,6 @@
 import Route from './Route';
 import { BlockType } from './Block';
+// import Store from './Store';
 
 class Router {
     static __instance: Router | undefined;
@@ -73,6 +74,10 @@ class Router {
 
     getRoute(pathname: string) {
         return this._routes.find(route => route.match(pathname));
+    }
+
+    getCurrentRoute() {
+        return this._currentRoute;
     }
 }
 

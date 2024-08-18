@@ -22,10 +22,6 @@ const goToSettings = () => {
     router.go('/settings');
 }
 
-const goToSettingsEdit = () => {
-    router.go('/settings/edit');
-}
-
 const goToPasswordEdit = () => {
     router.go('/settings/edit-password');
 }
@@ -45,7 +41,6 @@ export {
     goToRegister,
     goToMessenger,
     goToSettings,
-    goToSettingsEdit,
     goToPasswordEdit,
     goToError404,
     goToError500

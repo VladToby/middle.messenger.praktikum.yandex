@@ -1,0 +1,7 @@
+<div class="image {{#if avatar }}uploaded{{/if}}">
+    <img
+        src="https://ya-praktikum.tech/api/v2/resources{{avatar}}"
+        {{#if avatar}}style=""{{else}}style="display: none"{{/if}}
+        alt="avatar {{name}}"
+    />
+</div>
