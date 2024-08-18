@@ -1,0 +1,11 @@
+<div class="search">
+    <input class="user-search" type="search" placeholder="Search users" value="{{searchQuery}}" />
+    <ul class="search-results">
+        {{#each users}}
+        <li class="user-item" data-user-id="{{this.id}}">
+            <span class="login">{{this.login}}</span>
+            <span class="name">{{this.first_name}} {{this.second_name}}</span>
+        </li>
+        {{/each}}
+    </ul>
+</div>

@@ -21,8 +21,17 @@ class UserApi {
         });
     }
 
-    changeAvatar(data: FormData): Promise<unknown> {
+    public changeAvatar(data: FormData): Promise<unknown> {
         return user.put('/profile/avatar', { data });
+    }
+
+    public searchUsers(login: string): Promise<any> {
+        return user.post('/search', {
+            data: { login },
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            }
+        });
     }
 }
 

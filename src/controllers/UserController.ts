@@ -61,6 +61,27 @@ class UserController {
             console.error(e);
         }
     }
+
+    public async searchUsers(query: string): Promise<any> {
+        try {
+            const response = await UserApi.searchUsers(query);
+            if (response instanceof XMLHttpRequest) {
+                const data = response.response;
+                if (Array.isArray(data)) {
+                    return data;
+                } else {
+                    return [];
+                }
+            } else if (Array.isArray(response)) {
+                return response;
+            } else {
+                return [];
+            }
+        } catch (error) {
+            console.error('Error searching users:', error);
+            throw error;
+        }
+    }
 }
 
 export default new UserController();

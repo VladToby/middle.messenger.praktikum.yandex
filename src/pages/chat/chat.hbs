@@ -1,13 +1,14 @@
-<div class="chat">
+<div class="chat wrapper">
     <div class="chat sidebar">
         <div class="chat list">
             <div class="list-header">
                 <div class="profile">
                     {{{ Button class="profile-button" type="button" label='Profile' onClick=goToSettings }}}
                 </div>
-                <div class="search">
-                    {{{ Input type='search' name='search' class="chat-search" placeholder="Search" }}}
-                </div>
+                {{{ SearchUsers }}}
+                {{#if error}}
+                <div class="error-message">{{error}}</div>
+                {{/if}}
             </div>
             <a href="" class="chat item">
                 <div class="avatar"></div>
