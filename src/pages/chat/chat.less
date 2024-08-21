@@ -18,6 +18,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        height: 100%;
 
         .list-header {
           display: flex;
@@ -26,73 +27,63 @@
           border-right: 1px solid @secondary__background-color;
           border-bottom: 1px solid @secondary__background-color;
 
-          .profile {
-            align-self: flex-end;
-            padding: 0.25rem 0.1rem;
+          .section {
+            &.buttons {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
 
-            .profile-button {
-              .button(@background: none, @width: 100%, @margin: 0);
+              .create-new-chat {
+                margin: 0;
 
-              &:hover {
-                background: none !important;
-                color: @main__button-background-hover;
+                .new-chat {
+                  .button(@margin: 0, @background: none, @border: none, @width: auto);
 
-                &:after {
-                  color: @main__button-background-hover;
+                  &:hover {
+                    .custom-button-hover();
+                  }
                 }
               }
 
-              &:after {
-                font-family: @icon-font;
-                content: @icon__angle-right;
-                color: @main__font-color;
-                vertical-align: middle;
-                font-size: 12px;
-                margin-left: 0.25rem;
-              }
-            }
+              .profile {
+                align-self: flex-end;
+                padding: 0.25rem 0.1rem;
 
-            &:hover, &:active, &:focus-visible {
-              background: none !important;
-              color: @main__button-background-hover !important;
-            }
-          }
+                .profile-button {
+                  .button(@background: none, @width: 100%, @margin: 0);
 
-          .search {
-            display: block;
-            width: 95%;
-            margin: 0 auto;
+                  &:hover {
+                    background: none !important;
+                    color: @main__button-background-hover;
 
-            .user-search {
-              .input(@background: @secondary__background-color, @margin: 0 auto);
+                    &:after {
+                      color: @main__button-background-hover;
+                    }
+                  }
 
-              outline: none;
+                  &:after {
+                    font-family: @icon-font;
+                    content: @icon__angle-right;
+                    color: @main__font-color;
+                    vertical-align: middle;
+                    font-size: 12px;
+                    margin-left: 0.25rem;
+                  }
+                }
 
-              &:focus-visible, &:active {
-                border: 1px solid @main__button-background-color;
-              }
-            }
-
-            .search-results {
-              display: block;
-              background: @secondary__background-color;
-              position: absolute;
-              z-index: 100;
-              list-style: none;
-              border-radius: 5px;
-              width: 28.6%;
-              margin-top: 0;
-              padding-inline-start: 15px;
-              padding-inline-end: 15px;
-
-              .user-item {
-                display: flex;
-                flex-direction: column;
-                border-bottom: 1px solid @main__background-color;
-                padding: 5px;
+                &:hover, &:active, &:focus-visible {
+                  background: none !important;
+                  color: @main__button-background-hover !important;
+                }
               }
             }
           }
+
+        }
+
+        .chat-list {
+          overflow-y: scroll;
         }
 
         .item {
@@ -107,6 +98,7 @@
           padding-inline-start: 4.5rem !important;
           text-decoration: none;
           color: @main__font-color;
+          position: relative;
 
           .avatar {
             display: flex;
@@ -117,17 +109,20 @@
             width: 3.375rem !important;
             height: 3.375rem !important;
 
-            &:before {
-              font-family: @icon-font;
-              content: @icon__image;
-              color: @main__font-color;
+            .default-avatar {
               position: absolute;
+              font-size: 25px;
+            }
+
+            &:before {
+              content: '';
+              color: @main__font-color;
               font-size: 24px;
             }
 
             &:after {
               content: '';
-              border: 35px solid @secondary__background-color;
+              border: 30px solid @secondary__background-color;
               border-radius: 100%;
             }
           }
@@ -147,18 +142,17 @@
               margin-top: .125rem;
               color: @secondary__font-color;
 
-              &.unread {
-                color: @main__font-color;
-                transform-style: preserve-3d;
-
-                &:after {
-                  content: '';
-                  right: -5px;
-                  position: absolute;
-                  border: 10px solid @secondary__font-color;
-                  border-radius: 100%;
-                  transform: translateZ(-1px);
-                }
+              .unread-count {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 20px;
+                height: 20px;
+                background-color: @secondary__font-color;  /* Вы можете изменить цвет на любой подходящий вашему дизайну */
+                color: white;
+                border-radius: 10px;  /* Это создаст круглую форму */
+                font-size: 12px;
+                font-weight: bold;
               }
             }
           }
@@ -169,9 +163,42 @@
     .messenger {
       flex: 2;
       display: flex;
-      justify-content: center;
       align-items: center;
       background: @secondary__background-color;
+    }
+
+    .create-chat-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+
+      &.is-open {
+        display: flex;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .create-chat-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .close-modal {
+        margin-top: 10px;
+      }
     }
   }
 }

@@ -1,11 +1,10 @@
 import Handlebars from 'handlebars';
 import { registerComponent } from './core/RegistrationComponent';
-import { router } from "./utils/router";
+import {goToMessenger, goToLogin, router} from "./utils/router";
 import { BlockType } from "./core/Block";
 import './style.less';
-import Store, {StoreEvents} from './core/Store';
 import AuthController from './controllers/AuthController';
-import {goToSettings, goToLogin} from "./utils/router";
+import './utils/helpers';
 
 type ImportValue = Record<string, string>;
 type ImportGlob = Record<string, ImportValue>;
@@ -52,8 +51,6 @@ async function initApp() {
         .use('/500', pages.Error500Page as unknown as BlockType)
         .start();
 
-    Store.on(StoreEvents.Updated, () => {});
-
     try {
         const isLoggedIn = await AuthController.getUser();
         if (isLoggedIn) {
@@ -63,7 +60,7 @@ async function initApp() {
                 || currentRoute?.match('/login')
                 || currentRoute?.match('/signup')
             ) {
-                goToSettings();
+                goToMessenger();
             }
         } else {
             goToLogin();

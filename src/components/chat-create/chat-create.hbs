@@ -1,0 +1,16 @@
+<div class="create-chat-modal {{#if isOpen}}is-open{{/if}}">
+    <div class="modal-content">
+        <h2>Create New Chat</h2>
+        <form class="create-chat-form">
+            <input type="text" name="chatTitle" placeholder="Enter chat title" required>
+            <button type="submit">Create Chat</button>
+            {{#if error}}
+                <p class="error-message">{{error}}</p>
+            {{/if}}
+            {{#if success}}
+                <p class="success-message">{{success}}</p>
+            {{/if}}
+        </form>
+        <button class="close-modal">Close</button>
+    </div>
+</div>

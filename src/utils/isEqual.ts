@@ -1,8 +1,4 @@
-type PlainObject<T = any> = {
-    [k in string]: T;
-};
-
-function isEqual(a: PlainObject, b: PlainObject): boolean {
+function isEqual(a: any, b: any): boolean {
     if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) {
         return a === b;
     }

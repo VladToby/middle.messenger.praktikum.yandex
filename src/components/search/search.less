@@ -1,0 +1,48 @@
+@import '../../utils.less';
+
+.search {
+  display: block;
+  width: 95%;
+  margin: 0 auto;
+
+  .search-element {
+    .input(@background: @secondary__background-color, @margin: 0 auto);
+
+    outline: none;
+
+    &:focus-visible, &:active {
+      border: 1px solid @main__button-background-color;
+    }
+  }
+
+  .search-results {
+    display: block;
+    background: @secondary__background-color;
+    position: absolute;
+    z-index: 100;
+    list-style: none;
+    border-radius: 5px;
+    width: 28.6%;
+    margin-top: 0;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+
+    .user-item {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid @main__background-color;
+      padding: 5px;
+    }
+
+    .chat-results {
+      padding: 0;
+
+      .chat-item {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid @main__background-color;
+        padding: 5px;
+      }
+    }
+  }
+}

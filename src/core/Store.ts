@@ -1,5 +1,7 @@
 import { EventBus } from './EventBus';
 import { Indexed, set } from '../utils/utils'
+import isEqual from "../utils/isEqual";
+import { User } from '../utils/types';
 
 export enum StoreEvents {
     Updated = 'updated',
@@ -17,17 +19,27 @@ class Store extends EventBus {
     }
 
     public set(path: string, value: unknown) {
-        set(this.state, path, value);
-        this.emit(StoreEvents.Updated);
+        const oldValue = this.getState()[path];
+        if (!isEqual(oldValue, value)) {
+            set(this.state, path, value);
+            this.emit(StoreEvents.Updated, oldValue, value);
+        }
     }
 
     public setNotificationMessage(message: string | null) {
         this.set('notificationMessage', message);
     }
 
+    public setSelectedUser(user: User | null) {
+        this.set('selectedUser', user);
+    }
+
+    public setUsers(users: User[]) {
+        this.set('users', users);
+    }
+
     public emit(event: string, ...args: unknown[]) {
         if (!this.listeners[event]) {
-            console.warn(`Попытка вызвать несуществующее событие: ${event}`);
             return;
         }
 

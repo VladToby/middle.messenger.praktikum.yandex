@@ -1,0 +1,39 @@
+{{#if selectedChat}}
+    <div class="chat-body">
+        <div class="chat-header">
+            <h2>{{selectedChat.title}}</h2>
+            {{#if websocketError}}
+                <div class="error-message">{{websocketError}}</div>
+            {{/if}}
+            <div class="chat-menu">
+                {{{ MenuButton isOpenChatMenu=isOpenChatMenu class="chat-menu-button" onClick=toggleMenu }}}
+                {{#if isOpenChatMenu}}
+                    {{{ ChatMenu }}}
+                {{/if}}
+                {{#if isAddUserOpen }}
+                    {{{ UserModal }}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="chat-messages">
+            {{#if messages.length}}
+                {{#each messages}}
+                    <div class="message {{#if (eq user_id ../currentUserId)}}out{{else}}in{{/if}}">
+                        <p class="content">{{content}}</p>
+                        <span class="time">{{formatDate time}}</span>
+                    </div>
+                {{/each}}
+            {{else}}
+                <p>No messages yet</p>
+            {{/if}}
+        </div>
+        <form class="chat-input">
+            <input class="sender" type="text" placeholder="Message..." />
+            <button type="submit" class="send-message"></button>
+        </form>
+    </div>
+{{else}}
+    <div class="no-chat-selected">
+        <p>Select a chat to start messaging</p>
+    </div>
+{{/if}}

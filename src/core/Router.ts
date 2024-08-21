@@ -1,6 +1,5 @@
 import Route from './Route';
 import { BlockType } from './Block';
-// import Store from './Store';
 
 class Router {
     static __instance: Router | undefined;

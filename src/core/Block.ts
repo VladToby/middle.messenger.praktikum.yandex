@@ -5,7 +5,7 @@ import { Indexed } from "../utils/utils";
 import isEqual from "../utils/isEqual";
 
 export type Events = Record<string, () => void>;
-export type Props = Record<string, unknown>;
+export type Props = Record<string, any>;
 export type Children = Record<string, Element | Block>;
 export type BlockType = {
     new(propsAndParent: Props): Block

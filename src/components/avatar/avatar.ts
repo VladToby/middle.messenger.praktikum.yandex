@@ -1,4 +1,3 @@
-// import './avatar.less';
 import AvatarTmpl from './avatar.hbs?raw';
 import Block, {Props} from '../../core/Block';
 
