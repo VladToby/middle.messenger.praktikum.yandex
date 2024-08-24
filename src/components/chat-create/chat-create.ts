@@ -43,7 +43,7 @@ export class ChatCreateBase extends Block {
         const formData = new FormData(form);
         const chatTitle = formData.get('chatTitle') as string;
 
-        if (chatTitle.trim()) {
+        if (chatTitle) {
             try {
                 await ChatController.createChat(chatTitle);
                 form.reset();
