@@ -12,8 +12,7 @@ export class UserModalBase extends Block {
         super({
             ...props,
             onClose: () => {
-                Store.set('isAddUserOpen', false);
-                Store.set('selectedUser', null);
+                Store.set({isAddUserOpen: false});
             },
             events: {
                 click: (event: Event) => {
@@ -27,34 +26,6 @@ export class UserModalBase extends Block {
         this.children.Search = new Search({} as any);
     }
 
-    protected componentDidUpdate(oldProps: any, newProps: any) {
-        if (oldProps.selectedUser !== newProps.selectedUser && newProps.selectedUser) {
-            if (this.props.isUserSearchEnabled) {
-                this.addUserToChat(newProps.selectedUser);
-            } else {
-                this.removeUserFromChat(newProps.selectedUser);
-            }
-            Store.set('selectedUser', null);
-        }
-
-        return true;
-    }
-
-    private async addUserToChat(user: any) {
-        const chatId = Store.getState().selectedChat?.id;
-        if (chatId) {
-            try {
-                await ChatController.addUsers({ id: chatId, user: user.id });
-                await ChatController.getChatUsers(chatId);
-                Store.set('isAddUserOpen', false);
-            } catch (error) {
-                console.error('Error adding user to chat:', error);
-            }
-        } else {
-            console.error('No selected chat found');
-        }
-    }
-
     private async handleUserClick(e: Event) {
         const target = e.target as HTMLElement;
         const userItem = target.closest('.user-item');
@@ -64,28 +35,14 @@ export class UserModalBase extends Block {
                 let user;
                 if (this.props.isUserSearchEnabled) {
                     user = this.props.users.find((u: User) => u.id.toString() === userId);
+                    await ChatController.addUsers(user);
+                    Store.set({isAddUserOpen: false});
                 } else {
                     user = this.props.currentChatUsers.find((u: User) => u.id.toString() === userId);
-                }
-                if (user) {
-                    Store.setSelectedUser(user);
+                    await ChatController.removeUsers(user);
+                    Store.set({isAddUserOpen: false});
                 }
             }
-        }
-    }
-
-    private async removeUserFromChat(user: any) {
-        const chatId = Store.getState().selectedChat?.id;
-        if (chatId) {
-            try {
-                await ChatController.removeUsers({ id: chatId, users: [user.id] });
-                await ChatController.getChatUsers(chatId);
-                Store.set('isAddUserOpen', false);
-            } catch (error) {
-                console.error('Error removing user from chat:', error);
-            }
-        } else {
-            console.error('No selected chat found');
         }
     }
 
@@ -98,9 +55,10 @@ export const UserModal = connect((state) => {
     return {
         isAddUserOpen: state?.isAddUserOpen || false,
         isUserSearchEnabled: state?.isUserSearchEnabled || false,
-        usersList: state?.usersList || false,
         selectedUser: state.selectedUser,
         selectedChatId: state.selectedChat?.id,
-        currentChatUsers: state?.currentChatUsers || []
+        currentChatUsers: state?.currentChatUsers || [],
+        users: state?.users || [],
+        usersList: state.usersList
     }
 })(UserModalBase);

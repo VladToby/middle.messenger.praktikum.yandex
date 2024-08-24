@@ -9,12 +9,7 @@ class ChatAPI {
     }
 
     public async createChat(title: string): Promise<Chat> {
-        return chats.post('/', {
-            data: { title },
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        });
+        return chats.post('/', {data: { title }});
     }
 
     public async getUserToken(chatId: number): Promise<{ token: string }> {
@@ -26,22 +21,22 @@ class ChatAPI {
         return response;
     }
 
-    public async getChatUsers(chatId: number): Promise<User[]> {
+    public async getChatUsers(chatId: number | undefined): Promise<User[]> {
         return chats.get(`/${chatId}/users`);
     }
 
-    public async addUsers(chatId: number, users: any): Promise<Chat> {
+    public async addUsers(data: any): Promise<Chat> {
         return chats.put('/users', {
-            data: { chatId, users },
+            data: data,
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         });
     }
 
-    public async removeUsers(chatId: number, users: any): Promise<void> {
+    public async removeUsers(data: any): Promise<void> {
         return chats.delete('/users', {
-            data: { chatId, users },
+            data: data,
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
@@ -55,6 +50,15 @@ class ChatAPI {
                 'Content-type': 'application/json; charset=UTF-8',
             }
         });
+    }
+
+    public async uploadAvatar(data: any): Promise<unknown> {
+        return chats.put('/avatar', {
+            data: data,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }
 

@@ -15,7 +15,7 @@ class ChatPageBase extends Block {
             onChatCreate: (e: Event) => {
                 e.preventDefault();
                 e.stopPropagation();
-                Store.set('isCreateChatModalOpen', true);
+                Store.set({isCreateChatModalOpen: true});
             }
         });
     }

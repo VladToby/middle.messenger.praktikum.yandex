@@ -3,13 +3,27 @@ import Socket, { Message, WebSocketProps } from '../core/Socket';
 import ChatAPI from '../api/ChatApi';
 import Store from '../core/Store';
 
-const setLastMessage = (_message: MessageProps) => {
-    const { chats, currentChat } = Store.getState();
+const setLastMessage = (message: MessageProps) => {
+    const { chats, currentChat, currentChatUsers } = Store.getState();
     if (chats && currentChat) {
         const chat = chats.find((c: { id: any; }) => c.id === currentChat);
         if (chat) {
+            const user = currentChatUsers.find((u: { id: any; }) => u.id === message.user_id);
             const newChat = { ...chat };
-            Store.set('chats', chats.map((c: any) => (c === chat ? newChat : c)));
+            newChat.last_message = {
+                user: {
+                    id: user?.id || 0,
+                    login: user?.login || '',
+                    first_name: user?.first_name || '',
+                    second_name: user?.second_name || '',
+                    display_name: user?.display_name || '',
+                    avatar: user?.avatar || '',
+                    role: user?.role || '',
+                },
+                time: message.time,
+                content: message.content,
+            };
+            Store.set({chats: chats.map((c: any) => (c === chat ? newChat : c))})
         }
     }
 };
@@ -73,8 +87,8 @@ export class MessageController {
             newChatMessages = [...message].reverse();
         } else {
             newChatMessages = [...currentChatMessages, message];
-            setLastMessage(message);
+            setLastMessage(message as any);
         }
-        Store.set('currentChatMessages', newChatMessages);
+        Store.set({currentChatMessages: newChatMessages});
     }
 }

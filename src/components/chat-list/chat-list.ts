@@ -1,3 +1,4 @@
+import './chat-list.less';
 import Block, {Props} from '../../core/Block';
 import ChatListTemplate from './chat-list.hbs?raw';
 import ChatController from '../../controllers/ChatController';
@@ -7,26 +8,10 @@ export class ChatListBase extends Block {
     constructor(props: Props) {
         super({
             ...props,
-            onSetCurrentChat: (id: number) => {
+            onSetCurrentChat: (id: number | undefined) => {
                 ChatController.setCurrentChat(id);
             },
         });
-
-        setInterval(() => {
-            ChatController.getChats();
-        }, 5000);
-    }
-
-    init() {
-        this.loadChats();
-    }
-
-    private async loadChats() {
-        try {
-            await ChatController.getChats();
-        } catch (error) {
-            console.error('Error loading chats:', error);
-        }
     }
 
     render(): string {
@@ -37,6 +22,7 @@ export class ChatListBase extends Block {
 export const ChatList = connect((state) => {
     return {
         chats: state.chats || [],
-        currentChat: state.currentChat
+        currentChat: state.currentChat,
+        selectedChat: state.selectedChat,
     };
 })(ChatListBase);

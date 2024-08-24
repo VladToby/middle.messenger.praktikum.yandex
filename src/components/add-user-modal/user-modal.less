@@ -10,11 +10,23 @@
   background: @main__background-color;
   padding: 3rem 2rem 1rem 2rem;
   display: flex;
+  width: 30%;
   flex-direction: column;
   justify-content: space-between;
 
   .title {
+    text-align: center;
     margin: 0 0 1rem 0;
+  }
+
+  .user-item {
+    list-style: none;
+    border-bottom: 1px solid @secondary__background-color;
+    cursor: pointer;
+
+    &:hover {
+      color: @main__background-hover-color;
+    }
   }
 
   .search {
@@ -30,6 +42,7 @@
       margin-top: 0;
       padding-inline-start: 15px;
       padding-inline-end: 15px;
+      padding-bottom: 0.75rem;
 
       .user-item {
         display: flex;

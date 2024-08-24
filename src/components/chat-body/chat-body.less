@@ -27,8 +27,80 @@
           background-color: @main__background-color;
           border-bottom: 1px solid @secondary__background-color;
 
-          h2 {
+          .left-section {
+            display: flex;
+            flex-direction: row;
             padding-inline-start: 2rem;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
+            border-right: 1px solid @secondary__background-color;
+
+            .avatar {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 1.375rem !important;
+              height: 1.375rem !important;
+              z-index: 100;
+
+              .default-avatar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.375rem !important;
+                height: 1.375rem !important;
+                z-index: 100;
+
+                .title {
+                  position: absolute;
+                }
+
+                &:after {
+                  content: '';
+                  border: 30px solid #343A4F;
+                  border-radius: 100%;
+                }
+              }
+
+              .image {
+                position: absolute;
+
+                &.uploaded {
+                  width: 3.675rem !important;
+                  height: 3.675rem !important;
+
+                  img {
+                    width: 3.675rem !important;
+                    height: 3.675rem !important;
+                    border-radius: 50%;
+                  }
+                }
+              }
+            }
+
+            .chat-title {
+              padding-right: 0.5rem;
+              cursor: pointer;
+              margin-left: 3rem;
+
+              &:hover {
+                color: @main__button-background-hover;
+
+                &:after {
+                  color: @main__button-background-hover;
+                }
+              }
+
+              &:after {
+                font-family: @icon-font;
+                content: @icon__angle-right;
+                color: @main__font-color;
+                vertical-align: middle;
+                font-size: 12px;
+                margin-left: 0.25rem;
+              }
+            }
           }
         }
 
@@ -78,6 +150,7 @@
           border-left: 1px solid @secondary__background-color;
           display: flex;
           position: relative;
+          align-items: center;
 
           .sender {
             .input(@border-radius: 0, @width: 100%, @padding: 0, @color: @main__font-color);
@@ -107,20 +180,21 @@
 
             position: absolute;
             right: 0;
-            border: 10px solid @main__button-background-color;
+            border: 20px solid @main__button-background-color;
             border-radius: 100%;
 
             &:before {
               font-family: @icon-font;
               content: '\e901';
               color: @main__icon-color;
-              font-size: 20px;
+              font-size: 30px;
               position: absolute;
               transform: translate(-50%, -50%);
             }
 
             &:hover {
               .custom-button-hover();
+              border-color: @main__button-background-hover;
             }
           }
         }

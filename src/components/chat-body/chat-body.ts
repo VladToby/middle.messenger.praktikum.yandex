@@ -19,23 +19,24 @@ class ChatBodyBase extends Block {
         super({
             ...props,
             events: {
-                submit: (e: Event) => this.onSubmit(e),
-                click: (e: Event) => this.handleClick(e)
+                submit: (event: Event) => this.onSubmit(event),
+                click: (event: Event) => this.handleClick(event)
             },
-            toggleMenu: (e: Event) => {
-                e.stopPropagation();
+            toggleMenu: (event: Event) => {
+                event.stopPropagation();
                 const isOpen = Store.getState().isOpenChatMenu;
-                Store.set('isOpenChatMenu', !isOpen);
+                Store.set({isOpenChatMenu: !isOpen});
+            },
+            openSettingsModal: (event: Event) => {
+                if (!event) return;
+                event.preventDefault();
+                Store.set({isSettingsModalOpen: true});
             }
         });
     }
 
-    protected componentDidUpdate(_oldProps: ChatBodyProps, _newProps: ChatBodyProps): boolean {
-        return true;
-    }
-
     private closeMenu() {
-        Store.set('isOpenChatMenu', false);
+        Store.set({isOpenChatMenu: false});
     }
 
     private handleClick(e: Event) {
@@ -46,6 +47,10 @@ class ChatBodyBase extends Block {
             this.props.toggleMenu(e);
         } else if (isMenuOpen && !target.closest('.menu__wrapper') && !target.closest('form')) {
             this.closeMenu();
+        }
+
+        if (target.closest('.chat-title')) {
+            this.props.openSettingsModal(e);
         }
     }
 
@@ -72,5 +77,7 @@ export const ChatBody = connect((state) => {
         websocketError: state.websocketError,
         isOpenChatMenu: state.isOpenChatMenu || false,
         isAddUserOpen: state.isAddUserOpen || false,
+        isSettingsModalOpen: state.isSettingsModalOpen || false,
+        currentChatUsers: state.currentChatUsers || [],
     };
 })(ChatBodyBase);

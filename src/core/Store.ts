@@ -1,5 +1,4 @@
 import { EventBus } from './EventBus';
-import { Indexed, set } from '../utils/utils'
 import isEqual from "../utils/isEqual";
 import { User } from '../utils/types';
 
@@ -7,8 +6,15 @@ export enum StoreEvents {
     Updated = 'updated',
 }
 
+interface StoreState {
+    notificationMessage?: string;
+    selectedUser?: User;
+    users?: User[];
+    [key: string]: any;
+}
+
 class Store extends EventBus {
-    private state: Indexed = {};
+    private state: StoreState = {};
 
     constructor() {
         super();
@@ -18,24 +24,18 @@ class Store extends EventBus {
         return this.state;
     }
 
-    public set(path: string, value: unknown) {
-        const oldValue = this.getState()[path];
-        if (!isEqual(oldValue, value)) {
-            set(this.state, path, value);
-            this.emit(StoreEvents.Updated, oldValue, value);
+    public set(nextState: Partial<StoreState>) {
+        const prevState = { ...this.state };
+        const newState = { ...this.state, ...nextState };
+
+        if (!isEqual(prevState, newState)) {
+            this.state = newState;
+            this.emit(StoreEvents.Updated, prevState, newState);
         }
     }
 
-    public setNotificationMessage(message: string | null) {
-        this.set('notificationMessage', message);
-    }
-
-    public setSelectedUser(user: User | null) {
-        this.set('selectedUser', user);
-    }
-
-    public setUsers(users: User[]) {
-        this.set('users', users);
+    public setNotificationMessage(message: string) {
+        this.set({notificationMessage: message});
     }
 
     public emit(event: string, ...args: unknown[]) {
@@ -46,19 +46,6 @@ class Store extends EventBus {
         this.listeners[event].forEach(listener => {
             listener(...args);
         });
-    }
-
-    public setResetState(): void {
-        try {
-            this.state = {
-                auth: false,
-                user: null,
-                getPage: '/',
-            };
-            this.emit(StoreEvents.Updated);
-        } catch (e) {
-            console.error(e);
-        }
     }
 }
 

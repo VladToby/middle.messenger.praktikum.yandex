@@ -1,0 +1,30 @@
+{{#if isSettingsModalOpen}}
+    <form class="chat-settings">
+        <div class="avatar">
+            {{#if selectedChat.avatar}}
+                <div class="loaded-avatar-modal">
+                    {{{ Avatar avatar=selectedChat.avatar name=selectedChat.login }}}
+                    {{{ Input class="avatar-uploader" style="display: none" id="avatar-uploader" type="file" accept="image/*" skipValidation=true onChange=changeChatAvatar }}}
+                </div>
+            {{else}}
+                <div class="default-avatar">
+                    <span class="title">{{firstLetter selectedChat.title}}</span>
+                    {{{ Input class="avatar-uploader" style="display: none" id="avatar-uploader" type="file" accept="image/*" skipValidation=true onChange=changeChatAvatar }}}
+                </div>
+            {{/if}}
+        </div>
+        <div class="chat-users">
+            <ul class="users-list">
+                {{#each currentChatUsers }}
+                    <li class="user-item">
+                        <span class="name">{{first_name}} {{second_name}}</span>
+                        <span class="login">{{login}}</span>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="close-action">
+            {{{ Button class="close" type="button" label="Cancel" onClick=onClose }}}
+        </div>
+    </form>
+{{/if}}

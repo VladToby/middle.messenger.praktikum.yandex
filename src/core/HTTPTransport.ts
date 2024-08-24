@@ -41,7 +41,7 @@ class HTTPTransport {
     };
 
     request = (url: string, options: Options = {}, timeout = 5000) => {
-        const {headers = {}, method, data} = options;
+        const {method, data} = options;
 
         return new Promise(function(resolve, reject) {
             if (!method) {
@@ -50,23 +50,25 @@ class HTTPTransport {
             }
 
             const xhr = new XMLHttpRequest();
-            const isGet = method === METHODS.GET;
 
             if (method === METHODS.GET && data) {
-                url += queryStringify(data as Record<string, any>);
+                // eslint-disable-next-line no-param-reassign
+                url += queryStringify(data as Record<string, unknown>);
             }
 
-            xhr.open(
-                method,
-                isGet && !!data
-                    ? `${url}${queryStringify(data)}`
-                    : url,
-            );
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(xhr);
+            xhr.open(method || METHODS.GET, url);
+
+            if (data instanceof FormData) {
+                xhr.setRequestHeader('Accept', 'application/json');
+            } else {
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            }
+
+            xhr.onload = () => {
+                if (xhr.status !== 200) {
+                    reject(new Error(`Error ${xhr.status}: ${xhr?.response?.reason || xhr.statusText}`));
                 } else {
-                    reject(xhr);
+                    resolve(xhr.response);
                 }
             };
 
@@ -77,14 +79,12 @@ class HTTPTransport {
             xhr.responseType = 'json';
             xhr.withCredentials = true;
 
-            Object.keys(headers).forEach(key => {
-                xhr.setRequestHeader(key, headers[key]);
-            });
-
-            if (isGet || !data) {
+            if (method === METHODS.GET || !data) {
                 xhr.send();
+            } else if (data instanceof FormData) {
+                xhr.send(data);
             } else {
-                xhr.send(data instanceof FormData ? data : JSON.stringify(data));
+                xhr.send(JSON.stringify(data));
             }
         });
     };

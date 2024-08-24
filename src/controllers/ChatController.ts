@@ -1,6 +1,6 @@
 import ChatAPI from '../api/ChatApi';
 import Store from '../core/Store';
-import { Chat } from '../utils/types';
+import {Chat, User} from '../utils/types';
 import { MessageController } from "./MessageController";
 const messageController = new MessageController();
 
@@ -8,16 +8,7 @@ class ChatController {
     async getChats(): Promise<Chat[]> {
         try {
             const chats = await ChatAPI.getChats();
-            if (chats instanceof XMLHttpRequest) {
-                const chatsData = chats.response;
-                if (Array.isArray(chatsData)) {
-                    Store.set('chats', chatsData);
-                    return chatsData;
-                } else {
-                    return [];
-                }
-            } else if (Array.isArray(chats)) {
-                Store.set('chats', chats);
+            if (chats) {
                 return chats;
             } else {
                 return [];
@@ -32,7 +23,7 @@ class ChatController {
         try {
             const newChat = await ChatAPI.createChat(title);
             const currentChats = Store.getState().chats || [];
-            Store.set('chats', [...currentChats, newChat]);
+            Store.set({chats: [...currentChats, newChat]});
             return newChat;
         } catch (error) {
             console.error('Error creating chat:', error);
@@ -52,47 +43,42 @@ class ChatController {
         }
     }
 
-    public async getChatUsers(id: number): Promise<any> {
+    public async getChatUsers(id: number | undefined): Promise<any> {
         try {
             const chatUsers = await ChatAPI.getChatUsers(id);
-            if (chatUsers instanceof XMLHttpRequest) {
-                const usersData = chatUsers.response;
-                if (Array.isArray(usersData)) {
-                    Store.set('currentChatUsers', usersData);
-                }
-                return usersData;
-            }
+            Store.set({currentChatUsers: chatUsers});
+            return chatUsers;
         } catch (error) {
             console.error('Error fetching chatUsers:', error);
         }
     }
 
-    public async addUsers(data: any) {
-        if (!data.id || !data.user) return false;
-
-        try {
-            const response= await ChatAPI.addUsers(data.id, [data.user]);
-            if (response instanceof XMLHttpRequest) {
-                return true;
-            } else if (Array.isArray(response)) {
-                return true;
-            } else {
-                return false;
+    public async addUsers(user: User): Promise<void> {
+        const { selectedChat, currentChatUsers } = Store.getState();
+        if (user && selectedChat) {
+            try {
+                await ChatAPI.addUsers({ chatId: selectedChat.id, users: [user.id] });
+            } catch (error) {
+                console.error(error);
             }
-        } catch (e) {
-            console.error(e);
-        }
 
-        return false;
+            const newCurrentChatUsers = [...currentChatUsers, user];
+            Store.set({currentChatUsers: newCurrentChatUsers});
+        }
     }
 
-    async removeUsers(data: { id: number, users: number[] }) {
-        try {
-            await ChatAPI.removeUsers(data.id, data.users);
-            await this.getChatUsers(data.id);
-        } catch (error) {
-            console.error('Error removing users from chat:', error);
-            throw error;
+    async removeUsers(data: { id: number, users: number[] }): Promise<void> {
+        const { selectedChat, currentChatUsers } = Store.getState();
+
+        if (data && selectedChat) {
+            try {
+                await ChatAPI.removeUsers({ users: [data.id], chatId: selectedChat.id });
+            } catch (error) {
+                console.error(error);
+            }
+
+            const newCurrentChatUsers = currentChatUsers.filter((user: { id: number; }) => user.id !== data.id);
+            Store.set({currentChatUsers: newCurrentChatUsers});
         }
     }
 
@@ -100,30 +86,34 @@ class ChatController {
         const { chats, currentChat } = Store.getState();
         if (currentChat) {
             await ChatAPI.deleteChat({ chatId: currentChat });
-            Store.set('chats', chats.filter((chat: { id: any; }) => (chat.id !== currentChat)));
-            Store.set('currentChat', null);
+            Store.set({
+                chats: chats.filter((chat: { id: any; }) => (chat.id !== currentChat)),
+                currentChat: null
+            })
         }
     }
 
-    public async setCurrentChat(id: number) {
+    public async changeAvatar(data: FormData): Promise<any> {
+        try {
+            const response = await ChatAPI.uploadAvatar(data);
+            if (response) {
+                Store.set({selectedChat: response});
+                return response;
+            }
+        } catch (error) {
+            console.error('Error uploading avatar:', error);
+        }
+    }
+
+    public async setCurrentChat(id: number | undefined) {
         const chats = Store.getState().chats;
         const selectedChat = chats.find((chat: Chat) => chat.id === id);
+        const chatUsers = await this.getChatUsers(id);
 
-        if (selectedChat) {
-            Store.set('currentChat', id);
-            Store.set('selectedChat', selectedChat);
-            Store.set('currentChatMessages', []);
-            await messageController.disconnect();
+        Store.set({ currentChat: id, selectedChat: selectedChat, currentChatUsers: chatUsers });
 
-            try {
-                await messageController.connect();
-                await this.getChats();
-            } catch (error) {
-                Store.set('websocketError', 'Failed to connect to chat');
-            }
-        } else {
-            console.error('Chat not found:', id);
-        }
+        messageController.disconnect();
+        messageController.connect();
     }
 }
 

@@ -2,8 +2,8 @@
     <div class="modal-content">
         <h2>Create New Chat</h2>
         <form class="create-chat-form">
-            <input type="text" name="chatTitle" placeholder="Enter chat title" required>
-            <button type="submit">Create Chat</button>
+            {{{ Input class="chat-title" type="text" name="chat_title" placeholder="Enter chat title" }}}
+            {{{ Button class="chat-create-button" type="submit" label="Create Chat" }}}
             {{#if error}}
                 <p class="error-message">{{error}}</p>
             {{/if}}
@@ -11,6 +11,6 @@
                 <p class="success-message">{{success}}</p>
             {{/if}}
         </form>
-        <button class="close-modal">Close</button>
+        {{{ Button class="close-modal" label="Close" }}}
     </div>
 </div>

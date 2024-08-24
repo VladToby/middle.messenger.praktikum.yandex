@@ -1,9 +1,13 @@
-<div class="chat item {{#if chat.currentChat}}selected{{/if}}" data-chat-id="{{chat.id}}">
+<div class="chat item {{#if select}}selected{{/if}}" data-chat-id="{{chat.id}}">
     <div class="chat avatar">
         {{#if chat.avatar}}
-            <img src="{{avatar}}" alt="{{chat.title}}">
+            <div class="loaded-avatar">
+                {{{ Avatar avatar=chat.avatar name=chat.login }}}
+            </div>
         {{else}}
-            <div class="default-avatar">{{firstLetter chat.title}}</div>
+            <div class="default-avatar">
+                <span class="title">{{firstLetter chat.title}}</span>
+            </div>
         {{/if}}
     </div>
     <div class="dialog title">

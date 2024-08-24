@@ -1,6 +1,6 @@
 {{#if isAddUserOpen }}
     <form class="user-modal" method="dialog">
-        <h3 class="title">Добавить пользователя в чат</h3>
+    <h3 class="title">{{#if isUserSearchEnabled}}Add user to chat{{else}}Delete user from chat{{/if}}</h3>
         {{#if isUserSearchEnabled}}
             {{{ Search users=users class="search" placeholder="Search users" }}}
         {{/if}}

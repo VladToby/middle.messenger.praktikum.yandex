@@ -98,7 +98,8 @@ class Block {
         });
     }
 
-    public componentDidMount(): void {}
+    public componentDidMount(): void {
+    }
 
     public dispatchComponentDidMount(): void {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -118,7 +119,7 @@ class Block {
     }
 
     protected componentDidUpdate(oldProps: Props, newProps: Props) {
-        return isEqual(oldProps, newProps);
+        return !isEqual(oldProps, newProps);
     }
 
     protected _componentWillUnmount() {
@@ -139,49 +140,41 @@ class Block {
 
     private _render() {
         const fragment = this._compile();
-
         const newElement = fragment.firstElementChild as HTMLElement;
 
-        if (this._element) {
+        if (this._element && this._element.parentNode) {
             this._removeEvents();
             this._element.replaceWith(newElement);
         }
 
         this._element = newElement;
-
         this._addEvents();
-
-        Object.values(this.children).forEach(child => {
-            if (child instanceof Block) {
-                child.forceUpdate();
-            }
-        });
     }
 
     private _compile(): DocumentFragment {
         const template = this.render();
         const fragment = document.createElement('template');
 
-        const context = {
+        if (!template) {
+            return document.createDocumentFragment();
+        }
+
+        fragment.innerHTML = Handlebars.compile(template)({
             ...this.props,
             __children: this.children,
-        };
-
-        fragment.innerHTML = Handlebars.compile(template)(context);
+        });
 
         Object.entries(this.children).forEach(([id, child]) => {
             const stub = fragment.content.querySelector(`[data-id="${id}"]`);
             if (!stub) {
                 return;
             }
-
             if (child instanceof Block) {
                 const content = child.getContent();
-                if (content) {
-                    stub.replaceWith(content);
+                if (!content) {
+                    return;
                 }
-            } else if (child instanceof Element) {
-                stub.replaceWith(child);
+                stub.replaceWith(content);
             }
         });
 

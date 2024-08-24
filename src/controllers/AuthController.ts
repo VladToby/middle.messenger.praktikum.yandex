@@ -1,6 +1,7 @@
 import AuthApi from "../api/AuthApi";
 import {TOptionsData} from "../core/HTTPTransport";
 import { goToLogin, goToMessenger, goToError500 } from "../utils/router";
+import ChatController from "./ChatController";
 import Store from "../core/Store";
 
 class AuthController {
@@ -26,18 +27,13 @@ class AuthController {
 
     public async login(data: TOptionsData): Promise<void> {
         try {
-            const { status, response } = await AuthApi.login(data);
-            if (status === 200) {
-                Store.set('auth', true);
-                goToMessenger();
-                this.getUser();
-            } else if (status === 500) {
-                goToError500();
-            } else {
-                alert(JSON.parse(response).reason ?? 'Bad request');
-            }
-        } catch (e) {
-            console.error(e);
+            await AuthApi.login(data);
+            const user = await this.getUser();
+            const chats = await ChatController.getChats();
+            Store.set({user: user, chats});
+            goToMessenger();
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -45,35 +41,22 @@ class AuthController {
         try {
             const response = await AuthApi.getUser();
 
-            if (response.status === 200 && response) {
-                Store.set('user', response.response);
-                Store.set('auth', true);
+            if (response) {
+                Store.set({user: response});
                 return true;
             } else {
-                Store.set('auth', false);
                 return false;
             }
         } catch (e) {
-            console.error('Error in getUser:', e);
-            Store.set('auth', false);
+            console.error('Error in user:', e);
             return false;
         }
     }
 
     public async logout(): Promise<void> {
-        try {
-            const { status, response } = await AuthApi.logout();
-            if (status === 200) {
-                Store.setResetState();
-                goToLogin();
-            } else if (status === 500) {
-                goToError500();
-            } else {
-                alert(JSON.parse(response).reason ?? 'Error response');
-            }
-        } catch (e) {
-            console.error(e);
-        }
+        await AuthApi.logout();
+        Store.set({user: null, currentChat: null});
+        goToLogin();
     }
 }
 

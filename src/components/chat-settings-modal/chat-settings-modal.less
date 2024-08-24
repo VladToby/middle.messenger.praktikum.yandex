@@ -1,0 +1,131 @@
+@import '../../utils.less';
+
+.chat.messenger {
+  .messenger-body {
+    .chat-body {
+      .chat-header {
+        .chat-settings {
+          display: flex;
+          flex-direction: column;
+          z-index: 1000;
+          top: 15%;
+          position: absolute;
+          background: white;
+          width: 25%;
+          padding: 3rem 2rem;
+          align-items: center;
+          border-radius: 14px;
+          background: @main__background-color;
+
+          .avatar {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 4.995rem !important;
+            height: 4.995rem !important;
+
+            &:hover {
+              cursor: pointer;
+              background: rgba(0, 0, 0, 0.5);
+              border-radius: 50%;
+              width: 6.675rem !important;
+              height: 6.675rem !important;
+
+              &:before {
+                content: 'Change avatar' !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 15px;
+                z-index: 1001;
+              }
+
+              &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+              }
+            }
+
+            .loaded-avatar-modal {
+              position: absolute;
+              width: 6.575rem !important;
+              height: 6.575rem !important;
+
+              .image {
+                width: 6.575rem !important;
+                height: 6.575rem !important;
+                cursor: pointer;
+
+                &.uploaded {
+                  width: 6.575rem !important;
+                  height: 6.575rem !important;
+
+                  img {
+                    width: 6.575rem !important;
+                    height: 6.575rem !important;
+                  }
+                }
+              }
+            }
+
+            .default-avatar {
+              position: absolute;
+              font-size: 25px;
+
+              &:after {
+                content: '';
+                border: 53px solid @secondary__background-color;
+                border-radius: 100%;
+              }
+            }
+          }
+
+          .chat-users {
+            margin-bottom: 2rem;
+            width: 100%;
+
+            .users-list {
+              display: flex;
+              flex-direction: column;
+              padding: 0;
+              text-align: center;
+
+              .user-item {
+                display: flex;
+                flex-direction: column;
+                border-bottom: 1px solid @secondary__background-color;
+                padding: 5px;
+                cursor: pointer;
+
+                &:hover {
+                  background: @main__background-hover-color;
+                }
+              }
+            }
+          }
+
+          .close-action {
+            .close {
+              .button(@margin: 0, @width: auto, @background: none, @color: @secondary__button-background-color);
+
+              &:hover {
+                .custom-button-hover(@color: @secondary__button-background-color);
+                opacity: 70%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

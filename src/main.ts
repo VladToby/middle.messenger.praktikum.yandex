@@ -5,6 +5,8 @@ import { BlockType } from "./core/Block";
 import './style.less';
 import AuthController from './controllers/AuthController';
 import './utils/helpers';
+import Store from "./core/Store";
+import ChatController from "./controllers/ChatController";
 
 type ImportValue = Record<string, string>;
 type ImportGlob = Record<string, ImportValue>;
@@ -52,8 +54,8 @@ async function initApp() {
         .start();
 
     try {
-        const isLoggedIn = await AuthController.getUser();
-        if (isLoggedIn) {
+        const user = await AuthController.getUser();
+        if (user) {
             const currentRoute = router.getCurrentRoute();
             if (currentRoute && (
                 currentRoute.match('/'))
@@ -69,6 +71,9 @@ async function initApp() {
         console.error('Error during app initialization:', e);
         goToLogin();
     }
+
+    const chats = await ChatController.getChats();
+    Store.set({chats});
 }
 
-initApp();
+document.addEventListener('DOMContentLoaded', () => initApp());

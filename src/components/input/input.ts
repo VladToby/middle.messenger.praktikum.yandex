@@ -31,7 +31,9 @@ export class Input extends Block {
                     if (typeof this.props.onChange === 'function') {
                         this.props.onChange(e);
                     }
-                }
+                },
+
+                ...(props.onInput ? { input: props.onInput} : {})
             }
         });
     }

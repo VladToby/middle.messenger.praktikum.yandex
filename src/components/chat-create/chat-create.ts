@@ -1,3 +1,4 @@
+import './chat-create.less';
 import Block from '../../core/Block';
 import CreateChatFormTemplate from './chat-create.hbs?raw';
 import ChatController from '../../controllers/ChatController';
@@ -19,7 +20,7 @@ export class ChatCreateBase extends Block {
                 click: (e: Event) => this.onClick(e),
             },
             closeModal: () => {
-                Store.set('isCreateChatModalOpen', false);
+                Store.set({isCreateChatModalOpen: false});
             }
         });
     }
@@ -33,7 +34,7 @@ export class ChatCreateBase extends Block {
     }
 
     private closeModal() {
-        Store.set('isCreateChatModalOpen', false);
+        Store.set({isCreateChatModalOpen: false});
     }
 
     private async onSubmit(e: Event) {
@@ -46,20 +47,17 @@ export class ChatCreateBase extends Block {
             try {
                 await ChatController.createChat(chatTitle);
                 form.reset();
-                Store.set('createChatSuccess', 'Chat created successfully');
-                Store.set('createChatError', null);
+                Store.set({createChatSuccess: 'Chat created successfully', createChatError: null });
                 setTimeout(() => {
                     this.closeModal();
-                    Store.set('createChatSuccess', null);
+                    Store.set({createChatSuccess: null});
                 }, 2000);
             } catch (error) {
                 console.error('Error creating chat:', error);
-                Store.set('createChatError', 'Failed to create chat');
-                Store.set('createChatSuccess', null);
+                Store.set({createChatError: 'Failed to create chat', createChatSuccess: null});
             }
         } else {
-            Store.set('createChatError', 'Chat title cannot be empty');
-            Store.set('createChatSuccess', null);
+            Store.set({createChatError: 'Failed to create chat', createChatSuccess: null});
         }
     }
 

@@ -10,32 +10,16 @@ export class ChatMenuBase extends Block {
         super({
             ...props,
             addUser: () => {
-                Store.set('isAddUserOpen', true);
-                Store.set('isUserSearchEnabled', true);
-                Store.set('usersList', false);
-                Store.set('isOpenChatMenu', false);
+                Store.set({isAddUserOpen: true, isUserSearchEnabled: true, usersList: false, isOpenChatMenu: false});
             },
             deleteUser: () => {
-                Store.set('isAddUserOpen', true);
-                Store.set('isUserSearchEnabled', false);
-                Store.set('usersList', true);
-                Store.set('isOpenChatMenu', false);
-
-                if (Store.getState().usersList) {
-                    this.getChatUsers();
-                }
+                Store.set({isAddUserOpen: true, isUserSearchEnabled: false, usersList: true, isOpenChatMenu: false});
             },
             deleteChat: () => {
-                Store.set('isOpenChatMenu', false);
-                Store.set('selectedChat', false);
+                Store.set({isOpenChatMenu: false, selectedChat: false});
                 ChatController.deleteChat();
             }
         });
-    }
-
-    private async getChatUsers() {
-        const chatId = Store.getState().currentChat;
-        await ChatController.getChatUsers(chatId);
     }
 
     render(): string {

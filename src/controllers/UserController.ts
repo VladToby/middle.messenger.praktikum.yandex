@@ -10,10 +10,10 @@ class UserController {
             if (response && typeof response === 'object') {
                 if (response instanceof XMLHttpRequest) {
                     const userData = response.response;
-                    Store.set('user', userData);
+                    Store.set({user: userData});
                     return userData;
                 } else {
-                    Store.set('user', response);
+                    Store.set({user: response});
                     return response;
                 }
             } else {
@@ -48,10 +48,10 @@ class UserController {
             if (response && typeof response === 'object') {
                 if (response instanceof XMLHttpRequest) {
                     const userData = response.response;
-                    Store.set('user', userData);
+                    Store.set({user: userData});
                     return userData;
                 } else {
-                    Store.set('user', response);
+                    Store.set({user: response});
                     return response;
                 }
             } else {
@@ -65,14 +65,8 @@ class UserController {
     public async searchUsers(query: string): Promise<any> {
         try {
             const response = await UserApi.searchUsers(query);
-            if (response instanceof XMLHttpRequest) {
-                const data = response.response;
-                if (Array.isArray(data)) {
-                    return data;
-                } else {
-                    return [];
-                }
-            } else if (Array.isArray(response)) {
+            if (response) {
+                Store.set({users: response});
                 return response;
             } else {
                 return [];

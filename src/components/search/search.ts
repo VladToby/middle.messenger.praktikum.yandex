@@ -1,10 +1,10 @@
 import './search.less';
-import Block from '../../core/Block';
+import Block, {Props} from '../../core/Block';
 import SearchTemplate from './search.hbs?raw';
 import { User, Chat } from '../../utils/types';
 import UserController from '../../controllers/UserController';
 import ChatController from '../../controllers/ChatController';
-import Store from '../../core/Store';
+import isEqual from "../../utils/isEqual";
 
 interface SearchUsersProps {
     onUserSelect: (user: User) => void;
@@ -37,6 +37,10 @@ export class Search extends Block {
         });
     }
 
+    protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+        return isEqual(oldProps, newProps);
+    }
+
     private handleClick(e: Event) {
         const target = e.target as HTMLElement;
         const userItem = target.closest('.user-item');
@@ -47,7 +51,7 @@ export class Search extends Block {
             if (userId) {
                 const user = this.props.users.find((u: User) => u.id.toString() === userId);
                 if (user) {
-                    Store.setSelectedUser(user);
+                    // To do: add create chat with user
                 }
             }
         }
