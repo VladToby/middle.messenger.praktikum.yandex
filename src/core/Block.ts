@@ -45,7 +45,7 @@ class Block {
         const children: Children = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
-            if (value instanceof Block || value instanceof Element) {
+            if (value instanceof Block) {
                 children[key] = value;
             } else {
                 props[key] = value;
@@ -118,7 +118,7 @@ class Block {
         }
     }
 
-    protected componentDidUpdate(oldProps: Props, newProps: Props) {
+    public componentDidUpdate(oldProps: Props, newProps: Props) {
         return !isEqual(oldProps, newProps);
     }
 
