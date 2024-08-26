@@ -2,16 +2,16 @@
     <h1 class="login title">Sign In</h1>
     <form class="login form">
         <div class="login field-login">
-            {{{ Input type='text' name='login' class="login" id="login" label='Login' ref='login' }}}
+            {{{ Input type='text' name='login' class="login" id="login" label='Login' }}}
         </div>
         <div class="login field-password">
-            {{{ Input type='password' name='password' class="password" id="password" label='Password' ref='password' }}}
+            {{{ Input type='password' name='password' class="password" id="password" label='Password' }}}
         </div>
         <div class="login confirm">
-            {{{ Button class="login button-login" type="submit" label='Sign In' onClick=onValid }}}
+            {{{ Button class="login button-login" type="submit" label='Sign In' onClick=onLogin }}}
         </div>
     </form>
     <div class="login create-account">
-        {{{ Button class="login button-create-account" type="button" label='Create Account' page="RegistrationPage" }}}
+        {{{ Button class="login button-create-account" type="button" label='Create Account' onClick=goToRegistration }}}
     </div>
 </div>

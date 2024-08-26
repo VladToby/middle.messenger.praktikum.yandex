@@ -4,9 +4,12 @@
             type="{{ type }}"
             name="{{ name }}"
             class="input {{ class }}"
+            id="{{ id }}"
+            style="{{ style }}"
             placeholder="{{ placeholder }}"
             value="{{ value }}"
             {{#if autocomplete}}autocomplete="{{ autocomplete }}"{{/if}}
+            {{#if readonly}}readonly{{/if}}
     />
     <div class="error-message">{{ error }}</div>
 </div>

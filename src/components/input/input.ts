@@ -19,7 +19,21 @@ export class Input extends Block {
                 input: (e: Event) => {
                     const input = e.target as HTMLInputElement;
                     this.props.value = input.value;
-                }
+                },
+                change: (e: Event) => {
+                    const input = e.target as HTMLInputElement;
+                    this.setValue(input.value);
+
+                    if (!this.props.skipValidation) {
+                        this.validate();
+                    }
+
+                    if (typeof this.props.onChange === 'function') {
+                        this.props.onChange(e);
+                    }
+                },
+
+                ...(props.onInput ? { input: props.onInput} : {})
             }
         });
     }
@@ -33,6 +47,10 @@ export class Input extends Block {
     }
 
     public validate(): boolean {
+        if (this.props.skipValidation) {
+            return true;
+        }
+
         const errorMessage: string | null = validateField(<string>this.props.name, <string>this.props.value);
         const hasError: boolean = !!errorMessage;
         this.setProps({

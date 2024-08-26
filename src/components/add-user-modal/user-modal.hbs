@@ -1,0 +1,16 @@
+{{#if isAddUserOpen }}
+    <form class="user-modal" method="dialog">
+    <h3 class="title">{{#if isUserSearchEnabled}}Add user to chat{{else}}Delete user from chat{{/if}}</h3>
+        {{#if isUserSearchEnabled}}
+            {{{ Search users=users class="search" placeholder="Search users" }}}
+        {{/if}}
+        {{#if usersList }}
+            {{#each currentChatUsers }}
+                <ul>
+                    <li class="user-item" data-user-id="{{id}}">{{login}}</li>
+                </ul>
+            {{/each}}
+        {{/if}}
+        {{{ Button class="cancel" type="button" label="Cancel" onClick=onClose }}}
+    </form>
+{{/if}}

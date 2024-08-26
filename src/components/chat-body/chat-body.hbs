@@ -1,0 +1,52 @@
+{{#if selectedChat}}
+    <div class="chat-body">
+        <div class="chat-header">
+            <div class="left-section">
+                <div class="chat avatar">
+                    {{#if selectedChat.avatar}}
+                        {{{ Avatar avatar=selectedChat.avatar name=selectedChat.login  }}}
+                    {{else}}
+                        <div class="default-avatar">
+                            <span class="title">{{firstLetter selectedChat.title}}</span>
+                        </div>
+                    {{/if}}
+                </div>
+                <h2 class="chat-title">{{selectedChat.title}}</h2>
+                {{#if isSettingsModalOpen }}
+                    {{{ ChatSettingsModal selectedChat=selectedChat currentChatUsers=currentChatUsers }}}
+                    <div class="modals-overlay"></div>
+                {{/if}}
+            </div>
+            <div class="chat-menu">
+                {{{ MenuButton isOpenChatMenu=isOpenChatMenu class="chat-menu-button" onClick=toggleMenu }}}
+                {{#if isOpenChatMenu}}
+                    {{{ ChatMenu }}}
+                {{/if}}
+                {{#if isAddUserOpen }}
+                    {{{ UserModal }}}
+                    <div class="modals-overlay"></div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="chat-messages">
+            {{#if messages.length}}
+                {{#each messages}}
+                    <div class="message {{#if (eq user_id ../currentUserId)}}out{{else}}in{{/if}}">
+                        <p class="content">{{content}}</p>
+                        <span class="time">{{formatDate time}}</span>
+                    </div>
+                {{/each}}
+            {{else}}
+                <p>No messages yet</p>
+            {{/if}}
+        </div>
+        <form class="chat-input">
+            <input class="sender" type="text" placeholder="Message..." />
+            <button type="submit" class="send-message"></button>
+        </form>
+    </div>
+{{else}}
+    <div class="no-chat-selected">
+        <p>Select a chat to start messaging</p>
+    </div>
+{{/if}}

@@ -1,0 +1,69 @@
+@import '../../utils.less';
+
+.user-modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 14px;
+  z-index: 1000;
+  background: @main__background-color;
+  padding: 3rem 2rem 1rem 2rem;
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .title {
+    text-align: center;
+    margin: 0 0 1rem 0;
+  }
+
+  .user-item {
+    list-style: none;
+    border-bottom: 1px solid @secondary__background-color;
+    cursor: pointer;
+
+    &:hover {
+      color: @main__background-hover-color;
+    }
+  }
+
+  .search {
+    .search-results {
+      display: block;
+      background: @secondary__background-color;
+      position: relative;
+      list-style: none;
+      width: auto;
+      max-height: 15rem;
+      overflow-y: scroll;
+      border-radius: 5px;
+      margin-top: 0;
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
+      padding-bottom: 0.75rem;
+
+      .user-item {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid @main__background-color;
+        padding: 5px;
+      }
+    }
+  }
+
+  .cancel {
+    .button(
+      @margin: 3rem 0 0 0,
+      @width: auto,
+      @background: none,
+      @border: none,
+      @color: @secondary__button-background-color
+    );
+
+    &:hover {
+      .custom-button-hover(@color: @main__button-background-hover);
+    }
+  }
+}

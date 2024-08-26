@@ -1,6 +1,12 @@
 import Handlebars from 'handlebars';
 import { registerComponent } from './core/RegistrationComponent';
+import {goToMessenger, goToLogin, router} from "./utils/router";
+import { BlockType } from "./core/Block";
 import './style.less';
+import AuthController from './controllers/AuthController';
+import './utils/helpers';
+import Store from "./core/Store";
+import ChatController from "./controllers/ChatController";
 
 type ImportValue = Record<string, string>;
 type ImportGlob = Record<string, ImportValue>;
@@ -35,42 +41,39 @@ const registerImports = (imports: ImportValue) => {
 registerImports(components);
 registerImports(pages);
 
-const navigator = (pageName: string) => {
-    const Page: any = pages[pageName];
-    if (Page) {
-        const app = document.getElementById('app');
-        if (app) {
-            if (typeof Page === 'function') {
-                const page = new Page({});
-                const content = page.getContent();
-                if (content) {
-                    app.innerHTML = '';
-                    app.appendChild(content);
-                }
+async function initApp() {
+    router
+        .use('/', pages.LoginPage as unknown as BlockType)
+        .use('/login', pages.LoginPage as unknown as BlockType)
+        .use('/signup', pages.RegistrationPage as unknown as BlockType)
+        .use('/messenger', pages.ChatPage as unknown as BlockType)
+        .use('/settings', pages.ProfilePage as unknown as BlockType)
+        .use('/settings/edit-password', pages.ProfileEditPasswordPage as unknown as BlockType)
+        .use('/404', pages.Error404Page as unknown as BlockType)
+        .use('/500', pages.Error500Page as unknown as BlockType)
+        .start();
+
+    try {
+        const user = await AuthController.getUser();
+        if (user) {
+            const currentRoute = router.getCurrentRoute();
+            if (currentRoute && (
+                currentRoute.match('/'))
+                || currentRoute?.match('/login')
+                || currentRoute?.match('/signup')
+            ) {
+                goToMessenger();
             }
+        } else {
+            goToLogin();
         }
+    } catch (e) {
+        console.error('Error during app initialization:', e);
+        goToLogin();
     }
-};
 
-document.addEventListener('DOMContentLoaded', () => {
-    navigator('MainPage');
-});
+    const chats = await ChatController.getChats();
+    Store.set({chats});
+}
 
-document.addEventListener('click', (event) => {
-    const target: HTMLElement = event.target as HTMLElement;
-    const page = target.getAttribute('page');
-    if (page) {
-        navigator(page);
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-    }
-});
-
-document.addEventListener('navigate', (event: Event) => {
-    const customEvent = event as CustomEvent;
-    const page = customEvent.detail.page;
-    if (page) {
-        navigator(page);
-    }
-});
+document.addEventListener('DOMContentLoaded', () => initApp());

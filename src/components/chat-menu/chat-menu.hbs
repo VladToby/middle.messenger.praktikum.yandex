@@ -1,0 +1,15 @@
+{{#if isOpenChatMenu }}
+    <div class="chat-menu">
+        <ul class="actions-list">
+            <li class="action-item add-user">
+                {{{ Button class="add-user-button" label="Add User" onClick=addUser }}}
+            </li>
+            <li class="action-item delete-user">
+                {{{ Button class="delete-user-button" label="Delete User" onClick=deleteUser }}}
+            </li>
+            <li class="action-item delete-chat">
+                {{{ Button class="delete-chat-button" label="Delete Chat" onClick=deleteChat }}}
+            </li>
+        </ul>
+    </div>
+{{/if}}

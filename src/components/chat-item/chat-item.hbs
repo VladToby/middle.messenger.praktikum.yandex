@@ -1,0 +1,25 @@
+<div class="chat item {{#if select}}selected{{/if}}" data-chat-id="{{chat.id}}">
+    <div class="chat avatar">
+        {{#if chat.avatar}}
+            <div class="loaded-avatar">
+                {{{ Avatar avatar=chat.avatar name=chat.login }}}
+            </div>
+        {{else}}
+            <div class="default-avatar">
+                <span class="title">{{firstLetter chat.title}}</span>
+            </div>
+        {{/if}}
+    </div>
+    <div class="dialog title">
+        <div class="dialog title-user-title">{{chat.title}}</div>
+        <div class="dialog title-details">{{#if chat.last_message}}{{formatDate chat.last_message.time}}{{/if}}</div>
+    </div>
+    <div class="dialog subtitle">
+        <div class="dialog subtitle-message">{{#if chat.last_message}}{{chat.last_message.content}}{{/if}}</div>
+        <div class="dialog subtitle unread">
+            {{#if chat.unread_count}}
+                <span class="unread-count">{{chat.unread_count}}</span>
+            {{/if}}
+        </div>
+    </div>
+</div>

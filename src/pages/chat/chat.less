@@ -1,142 +1,22 @@
 @import '../../utils.less';
 
-.chat {
-  display: flex;
+#app {
+  height: 100vh !important;
+  width: 100vw !important;
 
-  .sidebar {
-    flex: 1;
-
-    .list {
+  .chat {
+    &.wrapper {
       display: flex;
-      flex-direction: column;
       width: 100%;
-
-      .list-header {
-        display: flex;
-        flex-direction: column;
-        height: 5rem;
-        border-right: 1px solid @secondary__background-color;
-        border-bottom: 1px solid @secondary__background-color;
-
-        .profile {
-          align-self: flex-end;
-          padding: 0.25rem 0.1rem;
-
-          .profile-button {
-            .button(@background: none, @width: 100%, @margin: 0);
-
-            &:hover {
-              background: none !important;
-              color: @main__button-background-hover;
-
-              &:after {
-                color: @main__button-background-hover;
-              }
-            }
-
-            &:after {
-              font-family: @icon-font;
-              content: @icon__angle-right;
-              color: @main__font-color;
-              vertical-align: middle;
-              font-size: 12px;
-              margin-left: 0.25rem;
-            }
-          }
-
-          &:hover, &:active, &:focus-visible {
-            background: none !important;
-            color: @main__button-background-hover !important;
-          }
-        }
-
-        .search {
-          display: block;
-          width: 95%;
-          margin: 0 auto;
-
-          .chat-search {
-            .input(@background: @secondary__background-color, @margin: 0 auto);
-          }
-        }
-      }
-
-      .item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        padding-inline: 1rem .75rem;
-        border-bottom: 1px solid @secondary__background-color;
-        min-height: 4.5rem;
-        padding-inline-start: 4.5rem !important;
-        text-decoration: none;
-        color: @main__font-color;
-
-        .avatar {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: absolute;
-          inset-inline-start: .5625rem !important;
-          width: 3.375rem !important;
-          height: 3.375rem !important;
-
-          &:before {
-            font-family: @icon-font;
-            content: @icon__image;
-            color: @main__font-color;
-            position: absolute;
-            font-size: 24px;
-          }
-
-          &:after {
-            content: '';
-            border: 35px solid @secondary__background-color;
-            border-radius: 100%;
-          }
-        }
-
-        .dialog {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          &.title {
-            height: 1.375rem;
-            font-weight: bold;
-          }
-
-          &.subtitle {
-            height: 1.375rem;
-            margin-top: .125rem;
-            color: @secondary__font-color;
-
-            &.unread {
-              color: @main__font-color;
-              transform-style: preserve-3d;
-
-              &:after {
-                content: '';
-                right: -5px;
-                position: absolute;
-                border: 10px solid @secondary__font-color;
-                border-radius: 100%;
-                transform: translateZ(-1px);
-              }
-            }
-          }
-        }
-      }
+      height: 100%;
     }
-  }
 
-  .messenger {
-    flex: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: @secondary__background-color;
+    .messenger {
+      flex: 2;
+      display: flex;
+      align-items: center;
+      background: @secondary__background-color;
+    }
+
   }
 }

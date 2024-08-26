@@ -1,0 +1,183 @@
+@import '../../utils.less';
+
+.sidebar {
+  flex: 1;
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    .list-header {
+      display: flex;
+      flex-direction: column;
+      height: 5rem;
+      border-right: 1px solid @secondary__background-color;
+      border-bottom: 1px solid @secondary__background-color;
+
+      .section {
+        &.buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          .create-new-chat {
+            margin: 0;
+
+            .new-chat {
+              .button(@margin: 0, @background: none, @border: none, @width: auto);
+
+              &:hover {
+                .custom-button-hover();
+              }
+            }
+          }
+
+          .profile {
+            align-self: flex-end;
+            padding: 0.25rem 0.1rem;
+
+            .profile-button {
+              .button(@background: none, @width: 100%, @margin: 0);
+
+              &:hover {
+                background: none !important;
+                color: @main__button-background-hover;
+
+                &:after {
+                  color: @main__button-background-hover;
+                }
+              }
+
+              &:after {
+                font-family: @icon-font;
+                content: @icon__angle-right;
+                color: @main__font-color;
+                vertical-align: middle;
+                font-size: 12px;
+                margin-left: 0.25rem;
+              }
+            }
+
+            &:hover, &:active, &:focus-visible {
+              background: none !important;
+              color: @main__button-background-hover !important;
+            }
+          }
+        }
+      }
+
+    }
+
+    .chat-list {
+      overflow-y: scroll;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      padding-inline: 1rem .75rem;
+      border-bottom: 1px solid @secondary__background-color;
+      min-height: 4.5rem;
+      padding-inline-start: 4.5rem !important;
+      text-decoration: none;
+      color: @main__font-color;
+      position: relative;
+      cursor: pointer;
+
+      &.selected {
+        background: @main__button-background-color;
+
+        .dialog {
+          &.subtitle {
+            color: @main__font-color;
+          }
+        }
+      }
+
+      &:hover {
+        background: @main__background-hover-color;
+      }
+
+      .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        inset-inline-start: .5625rem !important;
+
+        .loaded-avatar {
+          inset-inline-start: .5625rem !important;
+          width: 3.575rem !important;
+          height: 3.575rem !important;
+
+          .image {
+            &.uploaded {
+              img {
+                width: 3.575rem !important;
+                height: 3.575rem !important;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+
+        .default-avatar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          inset-inline-start: .1rem !important;
+          width: 3.375rem !important;
+          height: 3.375rem !important;
+
+          .title {
+            position: absolute;
+            font-size: 25px;
+          }
+
+          &:after {
+            content: '';
+            border: 30px solid @secondary__background-color;
+            border-radius: 100%;
+          }
+        }
+      }
+
+      .dialog {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &.title {
+          height: 1.375rem;
+          font-weight: bold;
+        }
+
+        &.subtitle {
+          height: 1.375rem;
+          margin-top: .125rem;
+          color: @secondary__font-color;
+
+          .unread-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            background-color: @secondary__font-color;  /* Вы можете изменить цвет на любой подходящий вашему дизайну */
+            color: white;
+            border-radius: 10px;  /* Это создаст круглую форму */
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

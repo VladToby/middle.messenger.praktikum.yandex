@@ -1,16 +1,22 @@
 import { EventBus } from './EventBus';
 import Handlebars from 'handlebars';
 import { v4 as makeUUID } from 'uuid';
+import { Indexed } from "../utils/utils";
+import isEqual from "../utils/isEqual";
 
 export type Events = Record<string, () => void>;
-export type Props = Record<string, unknown>;
+export type Props = Record<string, any>;
 export type Children = Record<string, Element | Block>;
+export type BlockType = {
+    new(propsAndParent: Props): Block
+};
 
 class Block {
     static EVENTS: Record<string, string> = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
+        FLOW_CWU: 'flow:component-will-unmount',
         FLOW_RENDER: "flow:render"
     } as const;
 
@@ -69,6 +75,7 @@ class Block {
         eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
@@ -79,7 +86,6 @@ class Block {
     }
 
     public init() {
-        return this;
     }
 
     private _componentDidMount(): void {
@@ -92,7 +98,8 @@ class Block {
         });
     }
 
-    public componentDidMount(): void {}
+    public componentDidMount(): void {
+    }
 
     public dispatchComponentDidMount(): void {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -112,10 +119,16 @@ class Block {
     }
 
     protected componentDidUpdate(oldProps: Props, newProps: Props) {
-        return oldProps !== newProps;
+        return !isEqual(oldProps, newProps);
     }
 
-    public setProps = (nextProps: Props): void => {
+    protected _componentWillUnmount() {
+        this.componentWillUnmount();
+    }
+
+    public componentWillUnmount() {}
+
+    public setProps = (nextProps: Props) => {
         if (!nextProps) {
             return;
         }
@@ -123,20 +136,18 @@ class Block {
         const oldProps = { ...this.props };
         Object.assign(this.props, nextProps);
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
-    };
+    }
 
     private _render() {
         const fragment = this._compile();
-
         const newElement = fragment.firstElementChild as HTMLElement;
 
-        if (this._element) {
+        if (this._element && this._element.parentNode) {
             this._removeEvents();
             this._element.replaceWith(newElement);
         }
 
         this._element = newElement;
-
         this._addEvents();
     }
 
@@ -144,26 +155,26 @@ class Block {
         const template = this.render();
         const fragment = document.createElement('template');
 
-        const context = {
+        if (!template) {
+            return document.createDocumentFragment();
+        }
+
+        fragment.innerHTML = Handlebars.compile(template)({
             ...this.props,
             __children: this.children,
-        };
-
-        fragment.innerHTML = Handlebars.compile(template)(context);
+        });
 
         Object.entries(this.children).forEach(([id, child]) => {
             const stub = fragment.content.querySelector(`[data-id="${id}"]`);
             if (!stub) {
                 return;
             }
-
             if (child instanceof Block) {
                 const content = child.getContent();
-                if (content) {
-                    stub.replaceWith(content);
+                if (!content) {
+                    return;
                 }
-            } else if (child instanceof Element) {
-                stub.replaceWith(child);
+                stub.replaceWith(content);
             }
         });
 
@@ -191,9 +202,10 @@ class Block {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target: Props, prop: string, value: unknown){
+                const oldTarget = { ...target };
                 target[prop] = value;
 
-                self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+                self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
                 return true;
             },
             deleteProperty() {
@@ -204,6 +216,28 @@ class Block {
 
     private _createDocumentElement(tagName: string): HTMLElement {
         return document.createElement(tagName);
+    }
+
+    show() {
+        const content = this.getContent();
+        if (content) {
+            content.style.display = '';
+        }
+    }
+
+    hide() {
+        const content = this.getContent();
+        if (content) {
+            content.style.display = 'none';
+        }
+    }
+
+    static getStateToProps(_state: Indexed): Props {
+        return {};
+    }
+
+    public forceUpdate() {
+        this._render();
     }
 }
 

@@ -1,0 +1,26 @@
+<div class="search">
+    <input class="search-element" type="search" placeholder="{{placeholder}}" value="{{searchQuery}}" />
+    <div class="search-results">
+        {{#if users.length}}
+            <h3>Users</h3>
+            <ul class="user-results">
+                {{#each users}}
+                    <li class="user-item" data-user-id="{{this.id}}">
+                        <span class="login">{{this.login}}</span>
+                        <span class="name">{{this.first_name}} {{this.second_name}}</span>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+        {{#if chats.length}}
+            <h3>Chats</h3>
+            <ul class="chat-results">
+                {{#each chats}}
+                    <li class="chat-item" data-chat-id="{{this.id}}">
+                        <span class="chat-title">{{this.title}}</span>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
+</div>

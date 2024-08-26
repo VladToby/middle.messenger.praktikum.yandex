@@ -1,0 +1,31 @@
+@import '../../utils.less';
+
+.chat-header {
+  .chat-menu {
+    .actions-list {
+      position: absolute;
+      right: 0;
+      background-color: @main__background-color;
+      padding: 20px;
+      z-index: 1000;
+      border-radius: 14px;
+      margin-top: 0;
+      box-shadow: 0px 0px 0px 2px @main__background-color_darker,
+                  0px 2px 4px @main__background-color_darker,
+                  0px 4px 8px @main__background-color_darker,
+                  0px 8px 16px @main__background-color_darker;
+
+      .action-item {
+        list-style: none;
+
+        .button {
+          .button(@margin: 0, @background: none, @width: auto);
+
+          &:hover {
+            .custom-button-hover();
+          }
+        }
+      }
+    }
+  }
+}

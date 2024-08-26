@@ -56,6 +56,8 @@ export const validateField = (fieldName: string, value: string): string | null =
                 return 'The phone number must contain 10 to 15 digits and may begin with a plus sign';
             }
             return null;
+        case 'chatTitle':
+            return null;
         default:
             console.warn(`Unknown field for validation: ${fieldName}`);
             return null;

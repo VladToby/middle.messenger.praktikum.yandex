@@ -1,32 +1,49 @@
 <div class="profile">
     <div class="profile sidebar">
-        {{{ Button class="back-button" type="button" id="button" page="ChatPage" }}}
+        {{{ Button class="back-button" type="button" id="button" onClick=goBack }}}
     </div>
     <div class="main-content">
-        <div class="profile avatar"></div>
-        <div class="profile info">
-            <div class="profile item">
-                <span class="label">Email</span><span class="email">ivan@gmail.com</span>
-            </div>
-            <div class="profile item">
-                <span class="label">Login</span><span class="login">ivanivanov</span>
-            </div>
-            <div class="profile item">
-                <span class="label">First Name</span><span class="fist-name">Ivan</span>
-            </div>
-            <div class="profile item">
-                <span class="label">Second Name</span><span class="second-name">Ivanov</span>
-            </div>
-            <div class="profile item">
-                <span class="label">Phone</span><span class="email">+78005553535</span>
-            </div>
+        <div class="profile avatar">
+            {{{ Avatar avatar=user.avatar name=user.login onClick=onClickAvatar }}}
+            {{{ Input class="avatar-uploader" style="display: none" id="avatar-uploader" type="file" accept="image/*" skipValidation=true onChange=changeUserAvatar }}}
         </div>
+        <div class="profile name">
+            <span class="name">{{user.first_name}}</span>
+        </div>
+        <form class="profile info">
+            <div class="profile item editable">
+                {{{ Input type='email' name='email' class="email" id="email" label='Email' value=user.email readonly=readonly }}}
+            </div>
+            <div class="profile item editable">
+                {{{ Input type='input' name='login' class="login" id="login" label='Login' value=user.login readonly=readonly }}}
+            </div>
+            <div class="profile item editable">
+                {{{ Input type='input' name='first_name' class="first_name" id="first_name" label='First Name' value=user.first_name readonly=readonly }}}
+            </div>
+            <div class="profile item editable">
+                {{{ Input type='input' name='second_name' class="second_name" id="second_name" label='Second Name' value=user.second_name readonly=readonly }}}
+            </div>
+            <div class="profile item editable">
+                {{{ Input type='tel' name='phone' class="phone" id="phone" label='Phone Number' value=user.phone readonly=readonly }}}
+            </div>
+            {{#if editable }}
+                <div class="profile save-profile">
+                    {{{ Button class="profile button-save" type="submit" label="Save" onClick=saveUserChanges }}}
+                </div>
+            {{/if}}
+        </form>
+        {{#if notificationMessage}}
+            <div class="profile success-message">{{ notificationMessage }}</div>
+        {{/if}}
         <div class="profile edit-buttons">
             <div class="profile edit-profile">
-                {{{ Button class="profile button-edit-profile" label="Change Profile" page="ProfileEditPage" }}}
+                {{{ Button class="profile button-edit-profile" label="Change Profile" onClick=toggleEdit }}}
             </div>
             <div class="profile edit-password">
-                {{{ Button class="profile button-edit-password" label="Change Password" page="ProfileEditPasswordPage" }}}
+                {{{ Button class="profile button-edit-password" label="Change Password" onClick=goToPasswordEdit }}}
+            </div>
+            <div class="profile logout">
+                {{{ Button class="profile button-logout" label="Log Out" onClick=goToLogout }}}
             </div>
         </div>
     </div>

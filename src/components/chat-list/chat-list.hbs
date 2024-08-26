@@ -1,0 +1,9 @@
+<div class="chat-list">
+    {{#if chats.length}}
+    {{#each chats}}
+        {{{ ChatItem chat=this onSetCurrentChat=../onSetCurrentChat currentChat= ../currentChat }}}
+    {{else}}
+        <p class="no-chats">No chats available</p>
+    {{/each}}
+    {{/if}}
+</div>
