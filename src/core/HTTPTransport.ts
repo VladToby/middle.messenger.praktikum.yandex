@@ -1,7 +1,7 @@
 import queryStringify from '../utils/queryStringify';
 import {HOST} from '../utils/hosts';
 
-enum METHODS {
+export enum METHODS {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT',
